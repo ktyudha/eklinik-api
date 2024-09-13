@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers\Api\Classification;
 
-use App\Models\Classification;
-use App\Http\Services\Classification\ClassificationService;
 use Illuminate\Http\Request;
+use App\Models\Classification;
 use App\Http\Controllers\Controller;
+use App\Http\Services\Classification\ClassificationService;
+use App\Http\Resources\Classification\ClassificationResource;
+use App\Http\Requests\Classification\ClassificationCreateRequest;
+use App\Http\Requests\Classification\ClassificationUpdateRequest;
 
 class ClassificationController extends Controller
 {
@@ -16,54 +19,53 @@ class ClassificationController extends Controller
      */
     public function index()
     {
-        return $this->classificationService->index();
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
+        return response()->json([
+            'message' => 'success',
+            'classifications' => ClassificationResource::collection($this->classificationService->index())
+        ]);
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(ClassificationCreateRequest $request)
     {
-        //
+        return response()->json([
+            'message' => 'success',
+            'classification' => new ClassificationResource($this->classificationService->store($request))
+        ]);
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Classification $classification)
+    public function show($id)
     {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Classification $classification)
-    {
-        //
+        return response()->json([
+            'classification' => new ClassificationResource($this->classificationService->show($id))
+        ]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Classification $classification)
+    public function update(ClassificationUpdateRequest $request, $id)
     {
-        //
+        return response()->json([
+            'message' => 'success',
+            'classification' => new ClassificationResource($this->classificationService->update($id, $request))
+        ]);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Classification $classification)
+    public function destroy($id)
     {
-        //
+        $this->classificationService->destroy($id);
+
+        return response()->json([
+            'message' => 'success'
+        ]);
     }
 }
