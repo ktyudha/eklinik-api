@@ -6,6 +6,9 @@ use App\Models\patient;
 use Illuminate\Http\Request;
 use App\Http\Services\Patient\PatientService;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Patient\PatientCreateRequest;
+use App\Http\Requests\Patient\PatientUpdateRequest;
+use App\Http\Resources\Patient\PatientResource;
 
 class PatientController extends Controller
 {
@@ -15,54 +18,53 @@ class PatientController extends Controller
      */
     public function index()
     {
-        return $this->patientService->index();
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
+        return response()->json([
+            'message' => 'success',
+            'patients' => PatientResource::collection($this->patientService->index())
+        ]);
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(PatientCreateRequest $request)
     {
-        //
+        return response()->json([
+            'message' => 'success',
+            'patient' => new PatientResource($this->patientService->store($request))
+        ]);
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(patient $patient)
+    public function show($id)
     {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(patient $patient)
-    {
-        //
+        return response()->json([
+            'patient' => new PatientResource($this->patientService->show($id))
+        ]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, patient $patient)
+    public function update(PatientUpdateRequest $request, $id)
     {
-        //
+        return response()->json([
+            'message' => 'success',
+            'patient' => new PatientResource($this->patientService->update($id, $request))
+        ]);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(patient $patient)
+    public function destroy($id)
     {
-        //
+        $this->patientService->destroy($id);
+
+        return response()->json([
+            'message' => 'success'
+        ]);
     }
 }

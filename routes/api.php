@@ -21,15 +21,19 @@ Route::prefix('v1')->group(function () {
     Route::middleware(['auth:api'])->group(
         function () {
             Route::prefix('admin')->group(function () {
-                Route::get('/test', function () {
-                    return "Hello this is test";
-                });
+
+                // Route::apiResource('users', UserController::class);
+
+                // Group
+                Route::get('/patients', [PatientController::class, 'index']);
+                Route::post('/patients', [PatientController::class, 'store']);
+                Route::get('/patients/{id}', [PatientController::class, 'show']);
+                Route::put('/patients/{id}', [PatientController::class, 'update']);
+                Route::delete('/patients/{id}', [PatientController::class, 'destroy']);
+
+                Route::apiResource('classifications', ClassificationController::class);
+                Route::apiResource('medicals', MedicalController::class);
             });
         }
     );
-
-    Route::apiResource('users', UserController::class);
-    Route::apiResource('patients', PatientController::class);
-    Route::apiResource('classifications', ClassificationController::class);
-    Route::apiResource('medicals', MedicalController::class);
 });
