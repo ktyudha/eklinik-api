@@ -1,23 +1,39 @@
 <?php
 
+use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\UserController;
+use App\Http\Controllers\Api\Auth\AdminAuthController;
+use App\Http\Controllers\Api\Medical\MedicalController;
 use App\Http\Controllers\Api\Patient\PatientController;
 use App\Http\Controllers\Api\Classification\ClassificationController;
-use App\Http\Controllers\Api\Medical\MedicalController;
-use Illuminate\Support\Facades\Route;
 
 Route::prefix('v1')->group(function () {
-    // Route::prefix('auth')->group(function () {
-    //     Route::post('/login', [AuthController::class, 'login']);
-    // });
 
+    // =========================== ADMIN API ===========================
 
-    Route::get('/test', function () {
-        return "Hello this is test";
+    // Admin Login
+    Route::prefix('auth/admin')->group(function () {
+        Route::post('/login', [AdminAuthController::class, 'login'])->name('admin.login');
+        Route::get('/me', [AdminAuthController::class, 'user'])->name('admin.me');
+        Route::post('/logout', [AdminAuthController::class, 'logout'])->name('admin.logout');
     });
 
-    Route::apiResource('users', UserController::class);
-    Route::apiResource('patients', PatientController::class);
-    Route::apiResource('classifications', ClassificationController::class);
-    Route::apiResource('medicals', MedicalController::class);
+    Route::middleware(['auth:api'])->group(
+        function () {
+            Route::prefix('admin')->group(function () {
+
+                // Route::apiResource('users', UserController::class);
+
+                // Group
+                Route::get('/patients', [PatientController::class, 'index']);
+                Route::post('/patients', [PatientController::class, 'store']);
+                Route::get('/patients/{id}', [PatientController::class, 'show']);
+                Route::put('/patients/{id}', [PatientController::class, 'update']);
+                Route::delete('/patients/{id}', [PatientController::class, 'destroy']);
+
+                Route::apiResource('classifications', ClassificationController::class);
+                Route::apiResource('medicals', MedicalController::class);
+            });
+        }
+    );
 });

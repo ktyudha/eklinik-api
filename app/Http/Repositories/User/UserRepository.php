@@ -12,7 +12,7 @@ class UserRepository extends BaseRepository
         parent::__construct($user);
     }
 
-    public function fetchByUsername(string $userName)
+    public function findByUsername(string $userName)
     {
         return User::where('username', $userName)->first();
     }

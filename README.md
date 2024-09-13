@@ -4,23 +4,30 @@ eKlinik-API adalah sebuah proyek API untuk sistem manajemen rekam medis berbasis
 
 ## Fitur
 
-- **CRUD** (Create, Read, Update, Delete) untuk data pasien
-- Pengelolaan rekam medis
-- Penyimpanan dan pengelolaan riwayat penyakit
-- Pencatatan alergi obat dan makanan
-- Pemeriksaan kesehatan (tekanan darah, suhu, dll.)
-- Manajemen resep dan tindakan medis
+-   **CRUD** (Create, Read, Update, Delete) untuk data pasien
+-   Pengelolaan rekam medis
+-   Penyimpanan dan pengelolaan riwayat penyakit
+-   Pencatatan alergi obat dan makanan
+-   Pemeriksaan kesehatan (tekanan darah, suhu, dll.)
+-   Manajemen resep dan tindakan medis
 
 ## Persyaratan
 
-- PHP 8.1 atau lebih tinggi
-- Composer
-- Laravel 11
-- Database (MySQL, PostgreSQL, dll.)
+-   PHP 8.1 atau lebih tinggi
+-   Composer
+-   Laravel 11
+-   Database (MySQL, PostgreSQL, dll.)
 
 ## Instalasi
 
 **Clone Repository**
-   ```bash
-   git clone https://github.com/username/eKlinik-API.git
 
+```bash
+git clone https://github.com/username/eklink-api.git
+```
+
+**Clone Repository**
+
+```bash
+php artisan passport:client --personal
+```
