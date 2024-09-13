@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use Illuminate\Support\Str;
 use App\Models\Classification;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
 class ClassificationSeeder extends Seeder
@@ -14,6 +15,9 @@ class ClassificationSeeder extends Seeder
      */
     public function run(): void
     {
+        Schema::disableForeignKeyConstraints();
+        Classification::truncate();
+        Schema::enableForeignKeyConstraints();
 
         Classification::create([
             'id' => Str::uuid(),
