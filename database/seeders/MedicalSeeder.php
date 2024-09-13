@@ -2,12 +2,12 @@
 
 namespace Database\Seeders;
 
+use App\Models\Medical;
 use Illuminate\Support\Str;
-use App\Models\Classification;
 use Illuminate\Database\Seeder;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
-class ClassificationSeeder extends Seeder
+class MedicalSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -15,11 +15,13 @@ class ClassificationSeeder extends Seeder
     public function run(): void
     {
 
-        Classification::create([
+        Medical::truncate();
+
+        Medical::create([
             'id' => Str::uuid(),
-            'name' => fake()->name,
-            'description' => 'halo',
-            'price' => '10000',
+            'patient_id' => '81cb826f-e6da-4f9d-b900-2c2a77d0c295',
+            'classification_id' => 'c8492ae6-d60a-4933-8b40-5d56910ed511',
+            'diagnosis' => 'sakit',
         ]);
     }
 }

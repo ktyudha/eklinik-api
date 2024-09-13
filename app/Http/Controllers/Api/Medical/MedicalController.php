@@ -1,18 +1,21 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api\Medical;
 
-use App\Models\Classification;
+use App\Models\Medical;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use App\Http\Services\Medical\MedicalService;
 
-class ClassificationController extends Controller
+class MedicalController extends Controller
 {
+    public function __construct(protected MedicalService $medicalService) {}
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        //
+        return $this->medicalService->index();
     }
 
     /**
@@ -34,7 +37,7 @@ class ClassificationController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Classification $classification)
+    public function show(Medical $medical)
     {
         //
     }
@@ -42,7 +45,7 @@ class ClassificationController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Classification $classification)
+    public function edit(Medical $medical)
     {
         //
     }
@@ -50,7 +53,7 @@ class ClassificationController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Classification $classification)
+    public function update(Request $request, Medical $medical)
     {
         //
     }
@@ -58,7 +61,7 @@ class ClassificationController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Classification $classification)
+    public function destroy(Medical $medical)
     {
         //
     }

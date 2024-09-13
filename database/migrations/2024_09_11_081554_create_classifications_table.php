@@ -12,9 +12,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('classifications', function (Blueprint $table) {
-            $table->id();
+            $table->uuid('id')->primary();
             $table->string('name')->nullable();
-            $table->string('slug')->nullable()->unique();
             $table->string('price')->nullable();
             $table->text('description')->nullable();
             $table->timestamps();
