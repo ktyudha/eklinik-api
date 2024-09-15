@@ -25,7 +25,7 @@ Route::prefix('v1')->group(function () {
             Route::prefix('admin')->group(function () {
 
                 // Route::apiResource('users', UserController::class);
-                // Route::apiResource('medicals', MedicalController::class);
+                Route::apiResource('medical', MedicalController::class);
 
                 // Patients
                 Route::get('/patients', [PatientController::class, 'index']);

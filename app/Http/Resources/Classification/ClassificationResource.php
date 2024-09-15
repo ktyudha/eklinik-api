@@ -16,6 +16,7 @@ class ClassificationResource extends JsonResource
     {
         return [
             'id' => $this->id,
+            'menu_id' => $this->menu_id,
             'name' => $this->name,
             'description' => $this->description,
             'price' => $this->price,
