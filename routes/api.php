@@ -6,6 +6,8 @@ use App\Http\Controllers\Api\Auth\AdminAuthController;
 use App\Http\Controllers\Api\Medical\MedicalController;
 use App\Http\Controllers\Api\Patient\PatientController;
 use App\Http\Controllers\Api\Classification\ClassificationController;
+use App\Http\Controllers\Api\Menu\MenuController;
+use App\Http\Controllers\Api\Menu\SubMenuController;
 
 Route::prefix('v1')->group(function () {
 
@@ -23,6 +25,7 @@ Route::prefix('v1')->group(function () {
             Route::prefix('admin')->group(function () {
 
                 // Route::apiResource('users', UserController::class);
+                // Route::apiResource('medicals', MedicalController::class);
 
                 // Patients
                 Route::get('/patients', [PatientController::class, 'index']);
@@ -38,7 +41,19 @@ Route::prefix('v1')->group(function () {
                 Route::put('/classifications/{id}', [ClassificationController::class, 'update']);
                 Route::delete('/classifications/{id}', [ClassificationController::class, 'destroy']);
 
-                Route::apiResource('medicals', MedicalController::class);
+                // Menu
+                Route::get('/menu', [MenuController::class, 'index']);
+                Route::post('/menu', [MenuController::class, 'store']);
+                Route::get('/menu/{id}', [MenuController::class, 'show']);
+                Route::put('/menu/{id}', [MenuController::class, 'update']);
+                Route::delete('/menu/{id}', [MenuController::class, 'destroy']);
+
+                // SubMenu
+                Route::get('/sub-menu', [SubMenuController::class, 'index']);
+                Route::post('/sub-menu', [SubMenuController::class, 'store']);
+                Route::get('/sub-menu/{id}', [SubMenuController::class, 'show']);
+                Route::put('/sub-menu/{id}', [SubMenuController::class, 'update']);
+                Route::delete('/sub-menu/{id}', [SubMenuController::class, 'destroy']);
             });
         }
     );

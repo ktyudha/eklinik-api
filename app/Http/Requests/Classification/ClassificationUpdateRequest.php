@@ -23,6 +23,7 @@ class ClassificationUpdateRequest extends FormRequest
     {
         return [
             'name' => 'required|string',
+            'menu_id' => 'required',
             'price' => 'required|string',
             'description' => 'required',
         ];
