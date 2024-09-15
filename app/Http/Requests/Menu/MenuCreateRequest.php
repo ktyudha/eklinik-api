@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\Classification;
+namespace App\Http\Requests\Menu;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class ClassificationCreateRequest extends FormRequest
+class MenuCreateRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -23,9 +23,7 @@ class ClassificationCreateRequest extends FormRequest
     {
         return [
             'name' => 'required|string',
-            'menu_id' => 'required',
-            'price' => 'required|string',
-            'description' => 'required',
+            'is_active' => 'required',
         ];
     }
 }

@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Menu;
 use Illuminate\Support\Str;
 use App\Models\Classification;
 use Illuminate\Database\Seeder;
@@ -19,11 +20,17 @@ class ClassificationSeeder extends Seeder
         Classification::truncate();
         Schema::enableForeignKeyConstraints();
 
-        Classification::create([
-            'id' => Str::uuid(),
-            'name' => fake()->name,
-            'description' => 'halo',
-            'price' => '10000',
-        ]);
+        $categories = ['KB', 'ANC', 'Anak 1', 'Anak 2'];
+        $randomMenuId = Menu::inRandomOrder()->first()->id;
+
+        for ($i = 0; $i < count($categories); $i++) {
+            Classification::create([
+                'id' => Str::uuid(),
+                'menu_id' => $randomMenuId,
+                'name' => $categories[$i],
+                'description' => $categories[$i],
+                'price' => '10000',
+            ]);
+        }
     }
 }

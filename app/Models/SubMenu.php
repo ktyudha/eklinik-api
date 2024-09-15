@@ -5,18 +5,16 @@ namespace App\Models;
 use App\Traits\Uuid;
 use Illuminate\Database\Eloquent\Model;
 
-class Classification extends Model
+class SubMenu extends Model
 {
     use Uuid;
 
-    public $table = 'classifications';
+    public $table = 'sub_menus';
     protected $fillable = [
         'menu_id',
         'name',
-        'description',
-        'price',
+        'type',
         'is_active',
-
     ];
 
     public function menu()
