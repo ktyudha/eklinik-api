@@ -22,7 +22,7 @@ class ClassificationUpdateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required|string|unique:classifications',
+            'name' => 'required|string|unique:classifications,' . $this->id,
             'price' => 'required|string',
             'description' => 'required',
         ];

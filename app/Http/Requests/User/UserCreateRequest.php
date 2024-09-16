@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\Menu;
+namespace App\Http\Requests\User;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class MenuUpdateRequest extends FormRequest
+class UserCreateRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,8 +22,10 @@ class MenuUpdateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required|string|unique:menus,' . $this->id,
-            'is_active' => 'required',
+            'name' => 'required|string',
+            'username' => 'required|string|unique:users,username',
+            'email' => 'required|string|unique:users,email',
+            'password' => 'required|string|min:8',
         ];
     }
 }
