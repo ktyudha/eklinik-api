@@ -19,12 +19,12 @@ class ClassificationService
 
     public function store(ClassificationCreateRequest $request)
     {
-        return $this->classificationRepository->create($request->validated());
+        return $this->classificationRepository->createClassificationWithMenu($request->validated());
     }
 
     public function show($id)
     {
-        return $this->classificationRepository->findById($id);
+        return $this->classificationRepository->findById($id, ['menus']);
     }
 
     public function update($id, ClassificationUpdateRequest $request)

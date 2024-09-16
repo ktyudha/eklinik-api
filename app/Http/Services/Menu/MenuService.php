@@ -24,7 +24,7 @@ class MenuService
 
     public function show($id)
     {
-        return $this->menuRepository->findById($id, ['submenus']);
+        return $this->menuRepository->findById($id, ['classifications', 'submenus']);
     }
 
     public function update($id, MenuUpdateRequest $request)

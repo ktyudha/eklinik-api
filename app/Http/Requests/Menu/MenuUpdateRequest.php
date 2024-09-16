@@ -22,7 +22,7 @@ class MenuUpdateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required|string',
+            'name' => 'required|string|unique:menus',
             'is_active' => 'required',
         ];
     }

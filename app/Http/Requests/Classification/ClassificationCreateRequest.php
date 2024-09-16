@@ -22,10 +22,11 @@ class ClassificationCreateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required|string',
-            'menu_id' => 'required',
+            'name' => 'required|string|unique:classifications',
             'price' => 'required|string',
             'description' => 'required',
+            'menu' => 'required|array',
+            'menu.*' => 'required|exists:menus,id'
         ];
     }
 }

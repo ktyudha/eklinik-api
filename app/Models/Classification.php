@@ -11,7 +11,6 @@ class Classification extends Model
 
     public $table = 'classifications';
     protected $fillable = [
-        'menu_id',
         'name',
         'description',
         'price',
@@ -19,8 +18,13 @@ class Classification extends Model
 
     ];
 
-    public function menu()
+    public function syncMenus(array $menuIds)
     {
-        return $this->belongsTo(Menu::class);
+        $this->menus()->sync($menuIds);
+    }
+
+    public function menus()
+    {
+        return $this->belongsToMany(Menu::class, 'classification_menu', 'classification_id', 'menu_id');
     }
 }
