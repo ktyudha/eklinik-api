@@ -38,9 +38,24 @@ class Medical extends Model
         // 'recipe',
     ];
 
+    protected $casts = [
+        'checkup_date' => 'datetime',
+        'submenu' => 'array',
+    ];
+
+    public function setSubmenuAttribute($value)
+    {
+        $this->attributes['submenu'] = json_encode($value);
+    }
+
     public function patient()
     {
         return $this->belongsTo(Patient::class);
+    }
+
+    public function submenu()
+    {
+        return $this->belongsTo(SubMenu::class);
     }
 
     public function classification()

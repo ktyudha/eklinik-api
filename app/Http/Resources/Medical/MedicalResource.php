@@ -19,6 +19,7 @@ class MedicalResource extends JsonResource
             'patient_id' => $this->patient_id,
             'classification_id' => $this->classification_id,
             'checkup_date' => $this->checkup_date,
+            'submenu' => $this->submenu,
             // 'diagnosis' => $this->diagnosis,
             // 'complaints' => $this->complaints,
             // 'illness_duration_years' => $this->illness_duration_years,

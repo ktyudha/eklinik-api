@@ -2,67 +2,53 @@
 
 namespace App\Http\Controllers\Api\Medical;
 
-use App\Models\Medical;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Services\Medical\MedicalService;
+use App\Http\Resources\Medical\MedicalResource;
+use App\Http\Requests\Medical\MedicalCreateRequest;
+use App\Http\Requests\Medical\MedicalUpdateRequest;
 
 class MedicalController extends Controller
 {
     public function __construct(protected MedicalService $medicalService) {}
-    /**
-     * Display a listing of the resource.
-     */
+
     public function index()
     {
-        return $this->medicalService->index();
+        return response()->json([
+            'message' => 'success',
+            'medical' => MedicalResource::collection($this->medicalService->index())
+        ]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
+    public function store(MedicalCreateRequest $request)
     {
-        //
+        return response()->json([
+            'message' => 'success',
+            'medical' => new MedicalResource($this->medicalService->store($request))
+        ]);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
+    public function show($id)
     {
-        //
+        return response()->json([
+            'menu' => new MedicalResource($this->medicalService->show($id))
+        ]);
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Medical $medical)
+    public function update(MedicalUpdateRequest $request, $id)
     {
-        //
+        return response()->json([
+            'message' => 'success',
+            'medical' => new MedicalResource($this->medicalService->update($id, $request))
+        ]);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Medical $medical)
+    public function destroy($id)
     {
-        //
-    }
+        $this->medicalService->destroy($id);
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Medical $medical)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Medical $medical)
-    {
-        //
+        return response()->json([
+            'message' => 'success'
+        ]);
     }
 }
