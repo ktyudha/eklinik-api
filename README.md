@@ -23,7 +23,7 @@ eKlinik-API adalah sebuah proyek API untuk sistem manajemen rekam medis berbasis
 **Clone Repository**
 
 ```bash
-git clone https://github.com/username/eklink-api.git
+git clone https://github.com/ktyudha/eklink-api.git
 ```
 
 **Clone Repository**
