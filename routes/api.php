@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Api\UserController;
+use App\Http\Controllers\Api\User\UserController;
 use App\Http\Controllers\Api\Auth\AdminAuthController;
 use App\Http\Controllers\Api\Medical\MedicalController;
 use App\Http\Controllers\Api\Patient\PatientController;
@@ -24,7 +24,11 @@ Route::prefix('v1')->group(function () {
         function () {
             Route::prefix('admin')->group(function () {
 
-                // Route::apiResource('users', UserController::class);
+                // Register
+                Route::post('/user/register', [UserController::class, 'store']);
+                Route::put('/user/{id}', [UserController::class, 'update']);
+
+                // Medical
                 Route::apiResource('medical', MedicalController::class);
 
                 // Patients
