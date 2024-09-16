@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources\Classification;
 
+use App\Http\Resources\Menu\MenuResource;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -16,10 +17,12 @@ class ClassificationResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'menu_id' => $this->menu_id,
             'name' => $this->name,
             'description' => $this->description,
             'price' => $this->price,
+            'menus' => $this->whenLoaded('menus', function () {
+                return MenuResource::collection($this->menus);
+            }),
         ];
     }
 }

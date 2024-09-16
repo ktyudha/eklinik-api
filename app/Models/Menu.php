@@ -19,4 +19,9 @@ class Menu extends Model
     {
         return $this->hasMany(Submenu::class);
     }
+
+    public function classifications()
+    {
+        return $this->belongsToMany(Classification::class, 'classification_menu', 'menu_id', 'classification_id');
+    }
 }

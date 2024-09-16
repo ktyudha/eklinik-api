@@ -16,21 +16,22 @@ class ClassificationSeeder extends Seeder
      */
     public function run(): void
     {
-        Schema::disableForeignKeyConstraints();
-        Classification::truncate();
-        Schema::enableForeignKeyConstraints();
-
         $categories = ['KB', 'ANC', 'Anak 1', 'Anak 2'];
-        $randomMenuId = Menu::inRandomOrder()->first()->id;
 
         for ($i = 0; $i < count($categories); $i++) {
             Classification::create([
                 'id' => Str::uuid(),
-                'menu_id' => $randomMenuId,
                 'name' => $categories[$i],
                 'description' => $categories[$i],
                 'price' => '10000',
             ]);
+        }
+
+        $menuIds = Menu::pluck('id')->toArray();
+        $classifications = Classification::all();
+
+        foreach ($classifications as $classification) {
+            $classification->menus()->sync($menuIds);
         }
     }
 }

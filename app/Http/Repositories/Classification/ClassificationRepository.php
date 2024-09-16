@@ -16,4 +16,16 @@ class ClassificationRepository extends BaseRepository
     {
         return Classification::where('name', $name)->first();
     }
+
+    public function createClassificationWithMenu($data)
+    {
+
+        $classification = $this->model::create($data);
+
+        if (isset($data['menu'])) {
+            $classification->syncMenus($data['menu']);
+        }
+
+        return $classification;
+    }
 }
