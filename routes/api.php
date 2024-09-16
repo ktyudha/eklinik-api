@@ -25,7 +25,7 @@ Route::prefix('v1')->group(function () {
             Route::prefix('admin')->group(function () {
 
                 // Register
-                Route::post('register', [UserController::class, 'store']);
+                Route::post('/user/register', [UserController::class, 'store']);
                 Route::put('/user/{id}', [UserController::class, 'update']);
 
                 // Medical

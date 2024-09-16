@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\User;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 use App\Http\Services\User\UserService;
 use App\Http\Resources\User\UserResource;
 use App\Http\Requests\User\UserCreateRequest;
@@ -23,6 +24,10 @@ class UserController extends Controller
 
     public function update(UserUpdateRequest $request, $id)
     {
+        if (Auth::id() != $id) {
+            return response()->json(['message' => 'Unauthorized'], 403);
+        }
+
         return response()->json([
             'message' => 'success',
             'menu' => new UserResource($this->userService->update($id, $request))
