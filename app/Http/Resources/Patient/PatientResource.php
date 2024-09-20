@@ -23,6 +23,10 @@ class PatientResource extends JsonResource
             'education' => $this->education,
             'job' => $this->job,
             'gender' => $this->gender,
+            'country_id' => $this->country_id,
+            'province_id' => $this->province_id,
+            'city_id' => $this->city_id,
+            'sub_district_id' => $this->sub_district_id,
             'address' => $this->address,
         ];
     }

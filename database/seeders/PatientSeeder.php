@@ -16,8 +16,8 @@ class PatientSeeder extends Seeder
 
         // for ($i = 0; $i <= 2; $i++) {
         Patient::create([
-            'name' => fake()->name,
-            'no_medical_record' => '200029011',
+            'name' => 'Pasien 1',
+            'no_medical_record' => '2409000001',
             'address' => 'Surabaya',
         ]);
         // }

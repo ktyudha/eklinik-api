@@ -29,6 +29,9 @@ class PatientCreateRequest extends FormRequest
             'education' => 'required|string',
             'job' => 'required|string',
             'gender' => 'required|in:male,female',
+            'province_id' => 'required|exists:provinces,id',
+            'city_id' => 'required|exists:cities,id',
+            'sub_district_id' => 'required|exists:sub_districts,id',
             'address' => 'required',
         ];
     }

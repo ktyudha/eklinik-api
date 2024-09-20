@@ -17,7 +17,7 @@ class DatabaseSeeder extends Seeder
         $this->call(RegionSeeder::class);
 
         $this->call(UserSeeder::class);
-        $this->call(PatientSeeder::class);
+        // $this->call(PatientSeeder::class);
 
         $this->call(MenuSeeder::class);
         $this->call(ClassificationSeeder::class);
