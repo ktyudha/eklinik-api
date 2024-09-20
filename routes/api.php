@@ -1,13 +1,14 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Api\Menu\MenuController;
 use App\Http\Controllers\Api\User\UserController;
+use App\Http\Controllers\Api\Menu\SubMenuController;
+use App\Http\Controllers\Api\Region\RegionController;
 use App\Http\Controllers\Api\Auth\AdminAuthController;
 use App\Http\Controllers\Api\Medical\MedicalController;
 use App\Http\Controllers\Api\Patient\PatientController;
 use App\Http\Controllers\Api\Classification\ClassificationController;
-use App\Http\Controllers\Api\Menu\MenuController;
-use App\Http\Controllers\Api\Menu\SubMenuController;
 
 Route::prefix('v1')->group(function () {
 
@@ -58,6 +59,18 @@ Route::prefix('v1')->group(function () {
                 Route::get('/sub-menu/{id}', [SubMenuController::class, 'show']);
                 Route::put('/sub-menu/{id}', [SubMenuController::class, 'update']);
                 Route::delete('/sub-menu/{id}', [SubMenuController::class, 'destroy']);
+            });
+
+
+            // Region
+            Route::prefix('region')->group(function () {
+                Route::get('/provinces', [RegionController::class, 'provinceIndex']);
+                Route::get('/cities', [RegionController::class, 'cityIndex']);
+                Route::get('/sub-districts', [RegionController::class, 'subDistrictIndex']);
+                Route::get('/countries', [RegionController::class, 'countryIndex']);
+                Route::get('/provinces/{id}', [RegionController::class, 'findOneProvince']);
+                Route::get('/cities/{id}', [RegionController::class, 'findOneCity']);
+                Route::get('/countries/{id}', [RegionController::class, 'findOneCountry']);
             });
         }
     );
