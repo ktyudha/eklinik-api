@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers\Api\Patient;
 
-use App\Models\patient;
-use Illuminate\Http\Request;
+
 use App\Http\Services\Patient\PatientService;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Pagination\PaginationRequest;
 use App\Http\Requests\Patient\PatientCreateRequest;
 use App\Http\Requests\Patient\PatientUpdateRequest;
 use App\Http\Resources\Patient\PatientResource;
@@ -16,12 +16,9 @@ class PatientController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(PaginationRequest $request): array
     {
-        return response()->json([
-            'message' => 'success',
-            'patients' => PatientResource::collection($this->patientService->index())
-        ]);
+        return $this->patientService->index($request);
     }
 
     /**

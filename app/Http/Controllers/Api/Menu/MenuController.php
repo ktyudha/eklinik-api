@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\Menu;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Pagination\PaginationRequest;
 use App\Http\Requests\Menu\MenuCreateRequest;
 use App\Http\Requests\Menu\MenuUpdateRequest;
 use App\Http\Resources\Menu\MenuResource;
@@ -12,12 +13,9 @@ class MenuController extends Controller
 {
     public function __construct(protected MenuService $menuService) {}
 
-    public function index()
+    public function index(PaginationRequest $request): array
     {
-        return response()->json([
-            'message' => 'success',
-            'menu' => MenuResource::collection($this->menuService->index())
-        ]);
+        return $this->menuService->index($request);
     }
 
     public function store(MenuCreateRequest $request)

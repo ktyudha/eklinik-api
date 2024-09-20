@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers\Api\Classification;
 
-use Illuminate\Http\Request;
-use App\Models\Classification;
+
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Pagination\PaginationRequest;
 use App\Http\Services\Classification\ClassificationService;
 use App\Http\Resources\Classification\ClassificationResource;
 use App\Http\Requests\Classification\ClassificationCreateRequest;
@@ -17,12 +17,9 @@ class ClassificationController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(PaginationRequest $request): array
     {
-        return response()->json([
-            'message' => 'success',
-            'classifications' => ClassificationResource::collection($this->classificationService->index())
-        ]);
+        return $this->classificationService->index($request);
     }
 
     /**

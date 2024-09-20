@@ -2,9 +2,12 @@
 
 namespace App\Http\Services\Classification;
 
+use App\Models\Classification;
+use App\Http\Requests\Pagination\PaginationRequest;
 use App\Http\Requests\Classification\ClassificationCreateRequest;
 use App\Http\Requests\Classification\ClassificationUpdateRequest;
 use App\Http\Repositories\Classification\ClassificationRepository;
+use App\Http\Resources\Classification\ClassificationResource;
 
 class ClassificationService
 {
@@ -12,9 +15,19 @@ class ClassificationService
         protected ClassificationRepository $classificationRepository,
     ) {}
 
-    public function index()
+    public function index(PaginationRequest $request): array
     {
-        return $this->classificationRepository->findAll();
+        return customPaginate(
+            new Classification(),
+            [
+                'property_name' => 'classifications',
+                'resource' => ClassificationResource::class,
+                'sort_by' => 'oldest',
+                'sort_by_property' => 'id',
+                'relations' => ['menus'],
+            ],
+            $request->limit ?? 10
+        );
     }
 
     public function store(ClassificationCreateRequest $request)
