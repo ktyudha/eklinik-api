@@ -16,10 +16,6 @@ class PatientService
         protected PatientRepository $patientRepository,
     ) {}
 
-    // public function index()
-    // {
-    //     return $this->patientRepository->findAll();
-    // }
     public function index(PaginationRequest $request): array
     {
         return customPaginate(
@@ -28,6 +24,7 @@ class PatientService
                 'property_name' => 'patients',
                 'resource' => PatientResource::class,
                 'sort_by' => 'oldest',
+                'sort_by_property' => 'id',
                 'relations' => ['medicals'],
             ],
             $request->limit ?? 10

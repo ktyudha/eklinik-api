@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers\Api\Menu;
 
-use Illuminate\Http\Request;
+
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Pagination\PaginationRequest;
 use App\Http\Resources\Menu\SubMenuResource;
 use App\Http\Requests\Menu\SubMenuCreateRequest;
 use App\Http\Requests\Menu\SubMenuUpdateRequest;
@@ -13,12 +14,9 @@ class SubMenuController extends Controller
 {
     public function __construct(protected SubMenuService $subMenuService) {}
 
-    public function index()
+    public function index(PaginationRequest $request): array
     {
-        return response()->json([
-            'message' => 'success',
-            'sub_menu' => SubMenuResource::collection($this->subMenuService->index())
-        ]);
+        return $this->subMenuService->index($request);
     }
 
     public function store(SubMenuCreateRequest $request)

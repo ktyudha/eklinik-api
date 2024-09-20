@@ -2,8 +2,7 @@
 
 namespace App\Http\Controllers\Api\Patient;
 
-use App\Models\patient;
-use Illuminate\Http\Request;
+
 use App\Http\Services\Patient\PatientService;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Pagination\PaginationRequest;

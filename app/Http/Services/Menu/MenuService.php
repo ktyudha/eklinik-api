@@ -2,9 +2,12 @@
 
 namespace App\Http\Services\Menu;
 
-use App\Http\Repositories\Menu\MenuRepository;
+use App\Models\Menu;
+use App\Http\Resources\Menu\MenuResource;
 use App\Http\Requests\Menu\MenuCreateRequest;
 use App\Http\Requests\Menu\MenuUpdateRequest;
+use App\Http\Repositories\Menu\MenuRepository;
+use App\Http\Requests\Pagination\PaginationRequest;
 
 class MenuService
 {
@@ -12,9 +15,19 @@ class MenuService
         protected MenuRepository $menuRepository,
     ) {}
 
-    public function index()
+    public function index(PaginationRequest $request): array
     {
-        return $this->menuRepository->findAll();
+        return customPaginate(
+            new Menu(),
+            [
+                'property_name' => 'menus',
+                'resource' => MenuResource::class,
+                'sort_by' => 'oldest',
+                'sort_by_property' => 'id',
+                'relations' => ['submenus', 'classifications'],
+            ],
+            $request->limit ?? 10
+        );
     }
 
     public function store(MenuCreateRequest $request)
