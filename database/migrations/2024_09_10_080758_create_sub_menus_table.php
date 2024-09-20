@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('sub_menus', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->foreignUuid('menu_id')->constrained('menus');
+            $table->foreignUuid('menu_id')->constrained('menus')->onDelete('cascade');
             $table->string('name');
             $table->enum('type', ['texteditor', 'textarea', 'input', 'combobox', 'checkbox',  'radio']);
             $table->boolean('is_active');
