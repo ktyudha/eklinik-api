@@ -20,6 +20,10 @@ return new class extends Migration
             $table->string('education')->nullable();
             $table->string('job')->nullable();
             $table->enum('gender', ['female', 'male'])->nullable();
+            $table->foreignUuid('country_id')->constrained('countries');
+            $table->foreignUuid('province_id')->constrained('provinces');
+            $table->foreignUuid('city_id')->constrained('cities');
+            $table->foreignUuid('sub_district_id')->constrained('sub_districts');
             $table->text('address')->nullable();
             $table->timestamps();
         });
