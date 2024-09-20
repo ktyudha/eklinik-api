@@ -2,6 +2,9 @@
 
 namespace App\Http\Services\Menu;
 
+use App\Models\SubMenu;
+use App\Http\Requests\Pagination\PaginationRequest;
+use App\Http\Resources\Menu\SubMenuResource;
 use App\Http\Requests\Menu\SubMenuCreateRequest;
 use App\Http\Requests\Menu\SubMenuUpdateRequest;
 use App\Http\Repositories\Menu\SubMenuRepository;
@@ -12,9 +15,18 @@ class SubMenuService
         protected SubMenuRepository $subMenuRepository,
     ) {}
 
-    public function index()
+    public function index(PaginationRequest $request): array
     {
-        return $this->subMenuRepository->findAll();
+        return customPaginate(
+            new SubMenu(),
+            [
+                'property_name' => 'submenus',
+                'resource' => SubMenuResource::class,
+                'sort_by' => 'oldest',
+                'sort_by_property' => 'id',
+            ],
+            $request->limit ?? 10
+        );
     }
 
     public function store(SubMenuCreateRequest $request)
