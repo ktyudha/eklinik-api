@@ -13,18 +13,17 @@ return new class extends Migration
     {
         Schema::create('patients', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->string('no_medical_record')->nullable()->unique();
-            $table->string('name')->nullable();
-            $table->date('date_of_birth')->nullable();
-            $table->string('nik')->nullable();
-            $table->string('education')->nullable();
-            $table->string('job')->nullable();
-            $table->enum('gender', ['female', 'male'])->nullable();
-            $table->foreignUuid('country_id')->constrained('countries');
+            $table->string('no_medical_record')->unique();
+            $table->string('name');
+            $table->date('date_of_birth');
+            $table->string('nik');
+            $table->string('education');
+            $table->string('job');
+            $table->enum('gender', ['female', 'male']);
             $table->foreignUuid('province_id')->constrained('provinces');
             $table->foreignUuid('city_id')->constrained('cities');
             $table->foreignUuid('sub_district_id')->constrained('sub_districts');
-            $table->text('address')->nullable();
+            $table->text('address');
             $table->timestamps();
         });
     }
