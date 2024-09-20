@@ -5,7 +5,10 @@ namespace App\Http\Services\Patient;
 use Illuminate\Support\Facades\DB;
 use App\Http\Repositories\Patient\PatientRepository;
 use App\Http\Requests\Patient\PatientCreateRequest;
+use App\Http\Requests\Pagination\PaginationRequest;
 use App\Http\Requests\Patient\PatientUpdateRequest;
+use App\Http\Resources\Patient\PatientResource;
+use App\Models\Patient;
 
 class PatientService
 {
@@ -13,9 +16,22 @@ class PatientService
         protected PatientRepository $patientRepository,
     ) {}
 
-    public function index()
+    // public function index()
+    // {
+    //     return $this->patientRepository->findAll();
+    // }
+    public function index(PaginationRequest $request): array
     {
-        return $this->patientRepository->findAll();
+        return customPaginate(
+            new Patient(),
+            [
+                'property_name' => 'patients',
+                'resource' => PatientResource::class,
+                'sort_by' => 'oldest',
+                'relations' => ['medicals'],
+            ],
+            $request->limit ?? 10
+        );
     }
 
     public function store(PatientCreateRequest $request)
