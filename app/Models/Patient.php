@@ -33,10 +33,6 @@ class Patient extends Model
         'date_of_birth' => 'date',
     ];
 
-    public function country()
-    {
-        return $this->belongsTo(Country::class);
-    }
 
     public function province()
     {
