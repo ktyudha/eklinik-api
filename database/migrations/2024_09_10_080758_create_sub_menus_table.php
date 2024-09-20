@@ -15,7 +15,7 @@ return new class extends Migration
             $table->uuid('id')->primary();
             $table->foreignUuid('menu_id')->constrained('menus')->onDelete('cascade');
             $table->string('name');
-            $table->enum('type', ['texteditor', 'textarea', 'input', 'combobox', 'checkbox',  'radio']);
+            $table->enum('type', ['textrich', 'textarea', 'input', 'combobox', 'checkbox',  'radio', 'date', 'datetime', 'time', 'select']);
             $table->boolean('is_active');
             $table->timestamps();
         });
