@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('medicals', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->foreignUuid('patient_id')->constrained('patients');
-            $table->foreignUuid('classification_id')->constrained('classifications');
+            $table->foreignUuid('patient_id')->constrained('patients')->onDelete('cascade');
+            $table->foreignUuid('classification_id')->constrained('classifications')->onDelete('cascade');
             $table->dateTime('checkup_date')->nullable();
             $table->json('submenu')->nullable();
             $table->timestamps();
