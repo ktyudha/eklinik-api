@@ -17,8 +17,9 @@ class MenuService
 
     public function index(PaginationRequest $request): array
     {
+        $query = Menu::where('is_active', 1);
         return customPaginate(
-            new Menu(),
+            $query,
             [
                 'property_name' => 'menus',
                 'resource' => MenuResource::class,
