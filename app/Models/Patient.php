@@ -16,21 +16,28 @@ class Patient extends Model
 
     public $table = 'patients';
     protected $fillable = [
-        'no_medical_record',
+        'medical_record_number',
         'name',
-        'date_of_birth',
-        'gender',
+        'username',
+        'password',
+        'encrypted_password',
         'nik',
+        'email',
+        'phone_number',
+        'religion',
+        'gender',
+        'birth_place',
+        'birth_date',
+        'marital_status',
         'education',
         'job',
-        'country_id',
         'province_id',
         'city_id',
         'sub_district_id',
-        'address',
+        'village',
     ];
     protected $casts = [
-        'date_of_birth' => 'date',
+        'birth_date' => 'date',
     ];
 
 
@@ -44,7 +51,7 @@ class Patient extends Model
         return $this->belongsTo(City::class);
     }
 
-    public function subdistrict()
+    public function subDistrict()
     {
         return $this->belongsTo(SubDistrict::class);
     }

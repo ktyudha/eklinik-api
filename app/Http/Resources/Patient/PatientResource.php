@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources\Patient;
 
+use App\Http\Resources\Medical\MedicalResource;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -16,18 +17,35 @@ class PatientResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'no_medical_record' => $this->no_medical_record,
+            'medical_record_number' => $this->medical_record_number,
             'name' => $this->name,
-            'date_of_birth' => $this->date_of_birth,
+            'username' => $this->username,
             'nik' => $this->nik,
+            'email' => $this->email,
+            'phone_number' => $this->phone_number,
+            'religion' => $this->religion,
+            'gender' => $this->gender,
+            'birth_place' => $this->birth_place,
+            'birth_date' => $this->birth_date,
+            'marital_status' => $this->marital_status,
             'education' => $this->education,
             'job' => $this->job,
-            'gender' => $this->gender,
-            'country_id' => $this->country_id,
-            'province_id' => $this->province_id,
-            'city_id' => $this->city_id,
-            'sub_district_id' => $this->sub_district_id,
-            'address' => $this->address,
+            'province' => $this->province_id ? [
+                'id' => $this->province->id,
+                'name' => $this->province->name,
+            ] : null,
+            'city' => $this->city_id ? [
+                'id' => $this->city->id,
+                'name' => $this->city->name,
+            ] : null,
+            'sub_district' => $this->sub_district_id ? [
+                'id' => $this->subDistrict->id,
+                'name' => $this->subDistrict->name,
+            ] : null,
+            'village' => $this->village,
+            'medicals' => $this->whenLoaded('medicals', function () {
+                return MedicalResource::collection($this->medicals);
+            }),
         ];
     }
 }
