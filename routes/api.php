@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Api\Auth\AuthController;
 use App\Http\Controllers\Api\Menu\MenuController;
 use App\Http\Controllers\Api\User\UserController;
 use App\Http\Controllers\Api\Menu\SubMenuController;
@@ -11,6 +12,12 @@ use App\Http\Controllers\Api\Patient\PatientController;
 use App\Http\Controllers\Api\Classification\ClassificationController;
 
 Route::prefix('v1')->group(function () {
+    // Patient Login
+    Route::prefix('auth')->group(function () {
+        Route::post('/login', [AuthController::class, 'login']);
+        Route::get('/me', [AuthController::class, 'user'])->name('me');
+        Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+    });
 
     // =========================== ADMIN API ===========================
 
@@ -74,4 +81,7 @@ Route::prefix('v1')->group(function () {
             });
         }
     );
+
+    // =========================== PATIENT API ===========================
+
 });

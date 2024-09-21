@@ -7,6 +7,7 @@ use BenSampo\Enum\Enum;
 final class RoleEnum extends Enum
 {
     const ADMIN = 'admin';
+    const PATIENT = 'patient';
     const STUDENT = 'student';
     const SCHOOL = 'school';
     const AGENCY = 'agency';

@@ -4,33 +4,51 @@ namespace App\Models;
 
 use App\Traits\Uuid;
 use App\Models\Region\City;
-use App\Models\Region\Country;
 use App\Models\Region\Province;
 use App\Models\Region\SubDistrict;
-use Illuminate\Database\Eloquent\Model;
+use Laravel\Passport\HasApiTokens;
+use Illuminate\Notifications\Notifiable;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 
-class Patient extends Model
+class Patient extends Authenticatable
 {
-    use Uuid;
+    use HasApiTokens, HasFactory, Notifiable, Uuid;
 
 
     public $table = 'patients';
     protected $fillable = [
-        'no_medical_record',
+        'medical_record_number',
         'name',
-        'date_of_birth',
-        'gender',
+        'username',
+        'password',
+        'encrypted_password',
         'nik',
+        'email',
+        'phone_number',
+        'religion',
+        'gender',
+        'birth_place',
+        'birth_date',
+        'marital_status',
         'education',
         'job',
-        'country_id',
         'province_id',
         'city_id',
         'sub_district_id',
-        'address',
+        'village',
     ];
+
     protected $casts = [
-        'date_of_birth' => 'date',
+        'birth_date' => 'date',
+    ];
+
+    protected $hidden = [
+        'remember_token',
+        'password',
+        'encrypted_password',
+        'created_at',
+        'updated_at',
     ];
 
 
@@ -44,7 +62,7 @@ class Patient extends Model
         return $this->belongsTo(City::class);
     }
 
-    public function subdistrict()
+    public function subDistrict()
     {
         return $this->belongsTo(SubDistrict::class);
     }

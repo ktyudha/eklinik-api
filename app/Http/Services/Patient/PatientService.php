@@ -2,7 +2,7 @@
 
 namespace App\Http\Services\Patient;
 
-use Illuminate\Support\Facades\DB;
+use Carbon\Carbon;
 use App\Http\Repositories\Patient\PatientRepository;
 use App\Http\Requests\Patient\PatientCreateRequest;
 use App\Http\Requests\Pagination\PaginationRequest;
@@ -25,7 +25,7 @@ class PatientService
                 'resource' => PatientResource::class,
                 'sort_by' => 'oldest',
                 'sort_by_property' => 'id',
-                'relations' => ['medicals'],
+                'relations' => ['province', 'city', 'subDistrict'],
             ],
             $request->limit ?? 10
         );
@@ -33,12 +33,16 @@ class PatientService
 
     public function store(PatientCreateRequest $request)
     {
-        return $this->patientRepository->create($request->validated());
+        $dataPayload = $this->validateAndAddCredentials($request, $this->generatePasswordFromDateString($request->birth_date));
+
+        $createdData = $this->patientRepository->create($dataPayload);
+
+        return $createdData;
     }
 
     public function show($id)
     {
-        return $this->patientRepository->findById($id);
+        return $this->patientRepository->findById($id, ['medicals']);
     }
 
     public function update($id, PatientUpdateRequest $request)
@@ -49,5 +53,21 @@ class PatientService
     public function destroy($id)
     {
         $this->patientRepository->delete($id);
+    }
+
+    private function generatePasswordFromDateString($dateString)
+    {
+        return str_replace('-', '', Carbon::parse($dateString)->format('dmY'));
+    }
+
+    private function validateAndAddCredentials($request, $password)
+    {
+        $validatedRequest = $request->validated();
+
+
+        $validatedRequest['password'] = bcrypt($password);
+        $validatedRequest['encrypted_password'] = encrypt($password);
+
+        return $validatedRequest;
     }
 }

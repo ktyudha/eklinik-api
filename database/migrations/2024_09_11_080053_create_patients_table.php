@@ -13,17 +13,29 @@ return new class extends Migration
     {
         Schema::create('patients', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->string('no_medical_record')->unique();
+            $table->string('medical_record_number')->nullable();
             $table->string('name');
-            $table->date('date_of_birth');
-            $table->string('nik');
-            $table->string('education');
-            $table->string('job');
-            $table->enum('gender', ['female', 'male']);
-            $table->foreignUuid('province_id')->constrained('provinces');
-            $table->foreignUuid('city_id')->constrained('cities');
-            $table->foreignUuid('sub_district_id')->constrained('sub_districts');
-            $table->text('address');
+            $table->string('username')->unique();
+            $table->string('password');
+            $table->text('encrypted_password');
+            $table->rememberToken();
+            $table->string('nik')->nullable();
+            $table->string('email')->nullable();
+            $table->string('phone_number')->nullable();
+            $table->string('religion')->nullable();
+            $table->enum('gender', ['L', 'P']);
+            $table->string('birth_place')->nullable();
+            $table->date('birth_date')->nullable();
+            $table->string('marital_status')->nullable();
+            $table->string('education')->nullable();
+            $table->string('job')->nullable();
+            $table->char('province_id', 6)->nullable();
+            $table->char('city_id', 6)->nullable();
+            $table->char('sub_district_id', 6)->nullable();
+            $table->foreign('province_id')->references('id')->on('provinces');
+            $table->foreign('city_id')->references('id')->on('cities');
+            $table->foreign('sub_district_id')->references('id')->on('sub_districts');
+            $table->text('village');
             $table->timestamps();
         });
     }

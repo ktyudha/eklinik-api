@@ -16,4 +16,9 @@ class PatientRepository extends BaseRepository
     {
         return Patient::where('name', $name)->first();
     }
+
+    public function findByUsername(string $username)
+    {
+        return $this->patient->where('username', $username)->first();
+    }
 }

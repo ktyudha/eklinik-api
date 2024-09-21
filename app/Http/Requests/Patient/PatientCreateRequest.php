@@ -22,17 +22,23 @@ class PatientCreateRequest extends FormRequest
     public function rules(): array
     {
         return [
+            'medical_record_number' => 'required',
             'name' => 'required|string',
-            'no_medical_record' => 'required',
-            'date_of_birth' => 'required|date',
+            'username' => 'required|string',
             'nik' => 'required|string',
+            'email' => 'required|email|unique:patients,email',
+            'phone_number' => 'required|string',
+            'religion' => 'required|string',
+            'gender' => 'required|in:L,P',
+            'birth_place' => 'required|string',
+            'birth_date' => 'required|date',
+            'marital_status' => 'required|string',
             'education' => 'required|string',
             'job' => 'required|string',
-            'gender' => 'required|in:male,female',
             'province_id' => 'required|exists:provinces,id',
             'city_id' => 'required|exists:cities,id',
             'sub_district_id' => 'required|exists:sub_districts,id',
-            'address' => 'required',
+            'village' => 'required|string',
         ];
     }
 }

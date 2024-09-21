@@ -2,11 +2,11 @@
 
 namespace App\Http\Resources\Patient;
 
-use App\Http\Resources\Medical\MedicalResource;
 use Illuminate\Http\Request;
-use Illuminate\Http\Resources\Json\JsonResource;
+use App\Http\Resources\Medical\MedicalResource;
+use App\Http\Resources\Patient\PatientResource;
 
-class PatientResource extends JsonResource
+class PatientCredentialsResource extends PatientResource
 {
     /**
      * Transform the resource into an array.
@@ -19,7 +19,9 @@ class PatientResource extends JsonResource
             'id' => $this->id,
             'medical_record_number' => $this->medical_record_number,
             'name' => $this->name,
+            'email' => $this->email,
             'username' => $this->username,
+            'password' => decrypt($this->encrypted_password),
             'nik' => $this->nik,
             'email' => $this->email,
             'phone_number' => $this->phone_number,
@@ -42,7 +44,6 @@ class PatientResource extends JsonResource
                 'id' => $this->subDistrict->id,
                 'name' => $this->subDistrict->name,
             ] : null,
-            'village' => $this->village,
             'medicals' => $this->whenLoaded('medicals', function () {
                 return MedicalResource::collection($this->medicals);
             }),

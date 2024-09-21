@@ -4,16 +4,25 @@ namespace App\Http\Controllers\Api\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\LoginRequest;
-use App\Http\Services\Auth\AdminAuthService;
+use App\Http\Services\Auth\AuthService;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 
-class AdminAuthController extends Controller
+class AuthController extends Controller
 {
-    public function __construct(protected AdminAuthService $adminAuthService) {}
+    public function __construct(
+        protected AuthService $authService
+    ) {}
 
-    public function login(LoginRequest $request): JsonResponse
+    public function login(LoginRequest $request)
     {
-        $user = $this->adminAuthService->login($request);
+        $user = $this->authService->centralizedLogin($request);
+
+        if (gettype($user) == 'string') {
+            return response()->json([
+                'message' => $user
+            ], 400);
+        }
 
         if ($user instanceof JsonResponse) {
             return $user;
@@ -30,18 +39,14 @@ class AdminAuthController extends Controller
 
     public function logout()
     {
-        $this->adminAuthService->logout();
+        $this->authService->centralizedLogout();
 
         return response()->json(['message' => 'Successfully logged out']);
     }
 
     public function user()
     {
-        $user = $this->adminAuthService->getAuthenticatedUser();
-
-        if (!$user) {
-            return response()->json(['message' => 'Unauthorized'], 401);
-        }
+        $user = $this->authService->getAuthenticatedUser();
 
         return response()->json([
             'user' => $user['user'],
