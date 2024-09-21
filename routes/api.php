@@ -10,6 +10,7 @@ use App\Http\Controllers\Api\Auth\AdminAuthController;
 use App\Http\Controllers\Api\Medical\MedicalController;
 use App\Http\Controllers\Api\Patient\PatientController;
 use App\Http\Controllers\Api\Classification\ClassificationController;
+use App\Http\Controllers\Api\Queue\QueueMedicalController;
 
 Route::prefix('v1')->group(function () {
     // Patient Login
@@ -83,5 +84,17 @@ Route::prefix('v1')->group(function () {
     );
 
     // =========================== PATIENT API ===========================
+    Route::middleware(['auth:patient-api'])->group(
+        function () {
+            Route::prefix('patient')->group(function () {
 
+                // Menu
+                Route::get('/appointments', [QueueMedicalController::class, 'index']);
+                Route::post('/appointments', [QueueMedicalController::class, 'store']);
+                Route::get('/appointments/{id}', [QueueMedicalController::class, 'show']);
+                Route::put('/appointments/{id}', [QueueMedicalController::class, 'update']);
+                Route::delete('/appointments/{id}', [QueueMedicalController::class, 'destroy']);
+            });
+        }
+    );
 });
