@@ -4,14 +4,16 @@ namespace App\Models;
 
 use App\Traits\Uuid;
 use App\Models\Region\City;
-use App\Models\Region\Country;
 use App\Models\Region\Province;
 use App\Models\Region\SubDistrict;
-use Illuminate\Database\Eloquent\Model;
+use Laravel\Passport\HasApiTokens;
+use Illuminate\Notifications\Notifiable;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 
-class Patient extends Model
+class Patient extends Authenticatable
 {
-    use Uuid;
+    use HasApiTokens, HasFactory, Notifiable, Uuid;
 
 
     public $table = 'patients';
@@ -36,8 +38,17 @@ class Patient extends Model
         'sub_district_id',
         'village',
     ];
+
     protected $casts = [
         'birth_date' => 'date',
+    ];
+
+    protected $hidden = [
+        'remember_token',
+        'password',
+        'encrypted_password',
+        'created_at',
+        'updated_at',
     ];
 
 

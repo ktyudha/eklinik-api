@@ -33,11 +33,9 @@ class PatientService
 
     public function store(PatientCreateRequest $request)
     {
-        $dataPayload = $this->validateAndAddCredentials($request, $this->generatePasswordFromDateString($request->birthdate));
+        $dataPayload = $this->validateAndAddCredentials($request, $this->generatePasswordFromDateString($request->birth_date));
 
         $createdData = $this->patientRepository->create($dataPayload);
-
-        // $this->createStudentProfileTracer($request->profile_tracer_id, $createdData->id);
 
         return $createdData;
     }
