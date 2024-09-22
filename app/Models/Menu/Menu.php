@@ -1,8 +1,9 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\Menu;
 
 use App\Traits\Uuid;
+use App\Models\Classification;
 use Illuminate\Database\Eloquent\Model;
 
 class Menu extends Model

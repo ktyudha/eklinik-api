@@ -2,7 +2,7 @@
 
 namespace App\Http\Services\Menu;
 
-use App\Models\SubMenu;
+use App\Models\Menu\SubMenu;
 use App\Http\Requests\Pagination\PaginationRequest;
 use App\Http\Resources\Menu\SubMenuResource;
 use App\Http\Requests\Menu\SubMenuCreateRequest;

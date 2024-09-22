@@ -10,6 +10,10 @@ use App\Http\Controllers\Api\Auth\AdminAuthController;
 use App\Http\Controllers\Api\Medical\MedicalController;
 use App\Http\Controllers\Api\Patient\PatientController;
 use App\Http\Controllers\Api\Classification\ClassificationController;
+use App\Http\Controllers\Api\Medicine\MedicineCategoryController;
+use App\Http\Controllers\Api\Medicine\MedicineController;
+use App\Http\Controllers\Api\Medicine\RecipeController;
+use App\Http\Controllers\Api\Queue\QueueMedicalController;
 
 Route::prefix('v1')->group(function () {
     // Patient Login
@@ -66,6 +70,27 @@ Route::prefix('v1')->group(function () {
                 Route::get('/sub-menu/{id}', [SubMenuController::class, 'show']);
                 Route::put('/sub-menu/{id}', [SubMenuController::class, 'update']);
                 Route::delete('/sub-menu/{id}', [SubMenuController::class, 'destroy']);
+
+                // Medicine Category
+                Route::get('/medicine-category', [MedicineCategoryController::class, 'index']);
+                Route::post('/medicine-category', [MedicineCategoryController::class, 'store']);
+                Route::get('/medicine-category/{id}', [MedicineCategoryController::class, 'show']);
+                Route::put('/medicine-category/{id}', [MedicineCategoryController::class, 'update']);
+                Route::delete('/medicine-category/{id}', [MedicineCategoryController::class, 'destroy']);
+
+                // Medicine Category
+                Route::get('/medicines', [MedicineController::class, 'index']);
+                Route::post('/medicines', [MedicineController::class, 'store']);
+                Route::get('/medicines/{id}', [MedicineController::class, 'show']);
+                Route::put('/medicines/{id}', [MedicineController::class, 'update']);
+                Route::delete('/medicines/{id}', [MedicineController::class, 'destroy']);
+
+                // Recipes
+                Route::get('/recipes', [RecipeController::class, 'index']);
+                Route::post('/recipes', [RecipeController::class, 'store']);
+                Route::get('/recipes/{id}', [RecipeController::class, 'show']);
+                Route::put('/recipes/{id}', [RecipeController::class, 'update']);
+                Route::delete('/recipes/{id}', [RecipeController::class, 'destroy']);
             });
 
 
@@ -83,5 +108,17 @@ Route::prefix('v1')->group(function () {
     );
 
     // =========================== PATIENT API ===========================
+    Route::middleware(['auth:patient-api'])->group(
+        function () {
+            Route::prefix('patient')->group(function () {
 
+                // Appointment
+                Route::get('/appointments', [QueueMedicalController::class, 'index']);
+                Route::post('/appointments', [QueueMedicalController::class, 'store']);
+                Route::get('/appointments/{id}', [QueueMedicalController::class, 'show']);
+                Route::put('/appointments/{id}', [QueueMedicalController::class, 'update']);
+                Route::delete('/appointments/{id}', [QueueMedicalController::class, 'destroy']);
+            });
+        }
+    );
 });

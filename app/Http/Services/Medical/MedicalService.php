@@ -2,9 +2,12 @@
 
 namespace App\Http\Services\Medical;
 
+use App\Models\Medical;
 use App\Http\Requests\Medical\MedicalCreateRequest;
 use App\Http\Requests\Medical\MedicalUpdateRequest;
+use App\Http\Requests\Pagination\PaginationRequest;
 use App\Http\Repositories\Medical\MedicalRepository;
+use App\Http\Resources\Medical\MedicalResource;
 
 class MedicalService
 {
@@ -12,9 +15,19 @@ class MedicalService
         protected MedicalRepository $medicalRepository,
     ) {}
 
-    public function index()
+    public function index(PaginationRequest $request): array
     {
-        return $this->medicalRepository->findAll();
+        return customPaginate(
+            new Medical(),
+            [
+                'property_name' => 'medicals',
+                'resource' => MedicalResource::class,
+                'sort_by' => 'oldest',
+                'sort_by_property' => 'id',
+                'relations' => ['patient', 'recipes'],
+            ],
+            $request->limit ?? 10
+        );
     }
 
     public function store(MedicalCreateRequest $request)

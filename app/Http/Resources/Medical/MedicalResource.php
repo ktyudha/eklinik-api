@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources\Medical;
 
+use App\Http\Resources\Medicine\RecipeResource;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -20,6 +21,9 @@ class MedicalResource extends JsonResource
             'classification_id' => $this->classification_id,
             'checkup_date' => $this->checkup_date,
             'submenu' => $this->submenu,
+            'recipes' => $this->whenLoaded('recipes', function () {
+                return RecipeResource::collection($this->recipes);
+            }),
             // 'diagnosis' => $this->diagnosis,
             // 'complaints' => $this->complaints,
             // 'illness_duration_years' => $this->illness_duration_years,
