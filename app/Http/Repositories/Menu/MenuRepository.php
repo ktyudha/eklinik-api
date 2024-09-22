@@ -3,7 +3,7 @@
 namespace App\Http\Repositories\Menu;
 
 use App\Http\Repositories\BaseRepository;
-use App\Models\Menu;
+use App\Models\Menu\Menu;
 
 class MenuRepository extends BaseRepository
 {

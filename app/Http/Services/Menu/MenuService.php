@@ -2,7 +2,7 @@
 
 namespace App\Http\Services\Menu;
 
-use App\Models\Menu;
+use App\Models\Menu\Menu;
 use App\Http\Resources\Menu\MenuResource;
 use App\Http\Requests\Menu\MenuCreateRequest;
 use App\Http\Requests\Menu\MenuUpdateRequest;

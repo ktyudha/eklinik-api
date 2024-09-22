@@ -7,17 +7,15 @@ use App\Http\Services\Medical\MedicalService;
 use App\Http\Resources\Medical\MedicalResource;
 use App\Http\Requests\Medical\MedicalCreateRequest;
 use App\Http\Requests\Medical\MedicalUpdateRequest;
+use App\Http\Requests\Pagination\PaginationRequest;
 
 class MedicalController extends Controller
 {
     public function __construct(protected MedicalService $medicalService) {}
 
-    public function index()
+    public function index(PaginationRequest $request): array
     {
-        return response()->json([
-            'message' => 'success',
-            'medical' => MedicalResource::collection($this->medicalService->index())
-        ]);
+        return $this->medicalService->index($request);
     }
 
     public function store(MedicalCreateRequest $request)

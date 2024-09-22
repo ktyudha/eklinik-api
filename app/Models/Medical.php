@@ -3,6 +3,8 @@
 namespace App\Models;
 
 use App\Traits\Uuid;
+use App\Models\Menu\SubMenu;
+use App\Models\Medicine\Recipe;
 use Illuminate\Database\Eloquent\Model;
 
 class Medical extends Model
@@ -61,5 +63,10 @@ class Medical extends Model
     public function classification()
     {
         return $this->belongsTo(Classification::class);
+    }
+
+    public function recipes()
+    {
+        return $this->hasMany(Recipe::class);
     }
 }

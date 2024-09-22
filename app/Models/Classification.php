@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Traits\Uuid;
+use App\Models\Menu\Menu;
 use Illuminate\Database\Eloquent\Model;
 
 class Classification extends Model
