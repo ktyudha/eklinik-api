@@ -13,6 +13,7 @@ use App\Http\Controllers\Api\Classification\ClassificationController;
 use App\Http\Controllers\Api\Medicine\MedicineCategoryController;
 use App\Http\Controllers\Api\Medicine\MedicineController;
 use App\Http\Controllers\Api\Medicine\RecipeController;
+use App\Http\Controllers\Api\Payment\PaymentController;
 use App\Http\Controllers\Api\Queue\QueueMedicalController;
 
 Route::prefix('v1')->group(function () {
@@ -119,6 +120,19 @@ Route::prefix('v1')->group(function () {
                 Route::put('/appointments/{id}', [QueueMedicalController::class, 'update']);
                 Route::delete('/appointments/{id}', [QueueMedicalController::class, 'destroy']);
             });
+        }
+    );
+
+    // =========================== GLOBAL API ===========================
+    Route::middleware(['auth:api,patient-api'])->group(
+        function () {
+
+            // Payment Medical and Reciipe
+            Route::get('/payments', [PaymentController::class, 'index']);
+            Route::post('/payments', [PaymentController::class, 'store']);
+            Route::get('/payments/{id}', [PaymentController::class, 'show']);
+            Route::put('/payments/{id}', [PaymentController::class, 'update']);
+            Route::delete('/payments/{id}', [PaymentController::class, 'destroy']);
         }
     );
 });

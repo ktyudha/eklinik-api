@@ -11,4 +11,9 @@ class MedicineRepository extends BaseRepository
     {
         parent::__construct($medicine);
     }
+
+    public function getMedicinesByIds(array $medicineIds)
+    {
+        return Medicine::whereIn('id', $medicineIds)->get();
+    }
 }
