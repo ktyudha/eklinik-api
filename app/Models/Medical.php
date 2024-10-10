@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Traits\Uuid;
 use App\Models\Menu\SubMenu;
 use App\Models\Medicine\Recipe;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 
 class Medical extends Model
@@ -44,6 +45,14 @@ class Medical extends Model
         'checkup_date' => 'datetime',
         'submenu' => 'array',
     ];
+
+    public function scopeFilters(Builder $query, array $filters)
+    {
+        $query
+            ->when(isset($filters['name']) && $filters['name'] !== null, function ($query) use ($filters) {
+                $query->where('name', 'like', '%' . $filters['name'] . '%');
+            });
+    }
 
     public function setSubmenuAttribute($value)
     {

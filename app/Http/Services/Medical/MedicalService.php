@@ -17,8 +17,12 @@ class MedicalService
 
     public function index(PaginationRequest $request): array
     {
+        $filters = $request->only(['name']);
+
+        $model = new Medical();
+
         return customPaginate(
-            new Medical(),
+            $model,
             [
                 'property_name' => 'medicals',
                 'resource' => MedicalResource::class,
@@ -26,7 +30,8 @@ class MedicalService
                 'sort_by_property' => 'id',
                 'relations' => ['patient', 'recipes'],
             ],
-            $request->limit ?? 10
+            $request->page_limit ?? 10,
+            $filters
         );
     }
 

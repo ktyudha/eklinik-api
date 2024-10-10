@@ -60,8 +60,6 @@ class Patient extends Authenticatable
             });
     }
 
-
-
     public function province()
     {
         return $this->belongsTo(Province::class);
