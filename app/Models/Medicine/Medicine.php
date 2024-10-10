@@ -2,7 +2,7 @@
 
 namespace App\Models\Medicine;
 
-use App\Models\Recipe;
+use App\Models\Medicine\Recipe;
 use App\Traits\Uuid;
 use Illuminate\Database\Eloquent\Model;
 

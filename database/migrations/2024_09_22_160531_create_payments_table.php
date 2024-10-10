@@ -11,13 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('recipes', function (Blueprint $table) {
+        Schema::create('payments', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->foreignUuid('patient_id')->constrained('patients')->onDelete('cascade');
             $table->foreignUuid('medical_id')->constrained('medicals')->onDelete('cascade');
-            $table->text('description')->nullable();
-            $table->enum('status', ['waiting', 'processed', 'completed', 'canceled'])->default('waiting')->nullable();
-            $table->string('amount')->nullable();
+            $table->foreignUuid('recipe_id')->constrained('recipes')->onDelete('cascade');
+            $table->dateTime('payment_date')->nullable();
+            $table->string('payment_method')->nullable();
+            $table->string('status')->nullable()->default('unpaid');
+            $table->string('total_amount')->nullable();
             $table->timestamps();
         });
     }
@@ -27,6 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('recipes');
+        Schema::dropIfExists('payments');
     }
 };

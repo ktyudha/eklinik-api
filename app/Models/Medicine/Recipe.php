@@ -11,6 +11,7 @@ class Recipe extends Model
 {
     use Uuid;
 
+    public $table = 'recipes';
     protected $fillable = [
         'patient_id',
         'medical_id',
@@ -19,6 +20,12 @@ class Recipe extends Model
         'expired_date',
         'amount',
     ];
+
+
+    public function syncMedicines(array $medicineIds)
+    {
+        $this->medicines()->sync($medicineIds);
+    }
 
     public function patient()
     {

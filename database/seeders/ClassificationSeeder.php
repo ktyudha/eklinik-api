@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Models\Menu;
+use App\Models\Menu\Menu;
 use Illuminate\Support\Str;
 use App\Models\Classification;
 use Illuminate\Database\Seeder;

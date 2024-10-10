@@ -2,11 +2,12 @@
 
 namespace App\Http\Services\Medicine;
 
-use App\Http\Repositories\Medicine\RecipeRepository;
-use App\Http\Requests\Pagination\PaginationRequest;
-use App\Http\Resources\Medicine\RecipeResource;
-use Illuminate\Http\Request;
 use App\Models\Medicine\Recipe;
+use App\Http\Requests\Medicine\RecipeCreateRequest;
+use App\Http\Requests\Medicine\RecipeUpdateRequest;
+use App\Http\Resources\Medicine\RecipeResource;
+use App\Http\Requests\Pagination\PaginationRequest;
+use App\Http\Repositories\Medicine\RecipeRepository;
 
 class RecipeService
 {
@@ -29,14 +30,9 @@ class RecipeService
         );
     }
 
-    public function store(Request $request)
+    public function store(RecipeCreateRequest $request)
     {
-        $validatedData = $request->validate([
-            'patient_id' => 'required|string|exists:patients,id',
-            'medical_id' => 'required|string|exists:medicals,id',
-            'description' => 'nullable|string',
-        ]);
-        return $this->recipeRepository->createRecipeWithMedicine($validatedData);
+        return $this->recipeRepository->createRecipeWithMedicine($request->validated());
     }
 
     public function show($id)
@@ -44,14 +40,9 @@ class RecipeService
         return $this->recipeRepository->findById($id);
     }
 
-    public function update($id, Request $request)
+    public function update($id, RecipeUpdateRequest $request)
     {
-        $validatedData = $request->validate([
-            'patient_id' => 'required|string|exists:patients,id',
-            'medical_id' => 'required|string|exists:medicals,id',
-            'description' => 'nullable|string',
-        ]);
-        return $this->recipeRepository->updateRecipeWithMedicine($id, $validatedData);
+        return $this->recipeRepository->updateRecipeWithMedicine($id, $request->validated());
     }
 
     public function destroy($id)

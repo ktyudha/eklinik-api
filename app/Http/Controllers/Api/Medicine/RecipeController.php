@@ -3,8 +3,9 @@
 namespace App\Http\Controllers\Api\Medicine;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
 use App\Http\Requests\Pagination\PaginationRequest;
+use App\Http\Requests\Medicine\RecipeCreateRequest;
+use App\Http\Requests\Medicine\RecipeUpdateRequest;
 use App\Http\Services\Medicine\RecipeService;
 use App\Http\Resources\Medicine\RecipeResource;
 
@@ -17,7 +18,7 @@ class RecipeController extends Controller
         return $this->recipeService->index($request);
     }
 
-    public function store(Request $request)
+    public function store(RecipeCreateRequest $request)
     {
         return response()->json([
             'message' => 'success',
@@ -32,7 +33,7 @@ class RecipeController extends Controller
         ]);
     }
 
-    public function update(Request $request, $id)
+    public function update(RecipeUpdateRequest $request, $id)
     {
         return response()->json([
             'message' => 'success',
