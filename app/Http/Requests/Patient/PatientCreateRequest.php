@@ -22,7 +22,7 @@ class PatientCreateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'medical_record_number' => 'required',
+            // 'medical_record_number' => 'required',
             'name' => 'required|string',
             'username' => 'required|string',
             'nik' => 'required|string',

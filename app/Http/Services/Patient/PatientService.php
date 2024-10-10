@@ -18,8 +18,12 @@ class PatientService
 
     public function index(PaginationRequest $request): array
     {
+        $filters = $request->only(['name']);
+
+        $model = new Patient();
+
         return customPaginate(
-            new Patient(),
+            $model,
             [
                 'property_name' => 'patients',
                 'resource' => PatientResource::class,
@@ -27,13 +31,18 @@ class PatientService
                 'sort_by_property' => 'id',
                 'relations' => ['province', 'city', 'subDistrict'],
             ],
-            $request->limit ?? 10
+            $request->page_limit ?? 10,
+            $filters
         );
     }
 
     public function store(PatientCreateRequest $request)
     {
         $dataPayload = $this->validateAndAddCredentials($request, $this->generatePasswordFromDateString($request->birth_date));
+
+        // Menambahkan Payload Data
+        $lastPatient = $this->patientRepository->findLatest();
+        $dataPayload['medical_record_number'] = $lastPatient ? generateMedicalRecordNumber($lastPatient->medical_record_number) : generateMedicalRecordNumber(0);
 
         $createdData = $this->patientRepository->create($dataPayload);
 
