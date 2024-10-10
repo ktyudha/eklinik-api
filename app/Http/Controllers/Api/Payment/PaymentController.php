@@ -22,14 +22,14 @@ class PaymentController extends Controller
     {
         return response()->json([
             'message' => 'success',
-            'recipe' => new PaymentResource($this->paymentService->store($request))
+            'payment' => new PaymentResource($this->paymentService->store($request))
         ]);
     }
 
     public function show($id)
     {
         return response()->json([
-            'recipe' => new PaymentResource($this->paymentService->show($id))
+            'payment' => new PaymentResource($this->paymentService->show($id))
         ]);
     }
 
@@ -37,7 +37,7 @@ class PaymentController extends Controller
     {
         return response()->json([
             'message' => 'success',
-            'recipe' => new PaymentResource($this->paymentService->update($id, $request))
+            'payment' => new PaymentResource($this->paymentService->update($id, $request))
         ]);
     }
 
