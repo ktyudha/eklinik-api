@@ -50,7 +50,9 @@ class Medical extends Model
     {
         $query
             ->when(isset($filters['name']) && $filters['name'] !== null, function ($query) use ($filters) {
-                $query->where('name', 'like', '%' . $filters['name'] . '%');
+                $query->whereHas('patient', function ($query) use ($filters) {
+                    $query->where('name', 'like', '%' . $filters['name'] . '%');
+                });
             });
     }
 
