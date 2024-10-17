@@ -27,6 +27,7 @@ class PaymentCreateRequest extends FormRequest
             'recipe_id' => 'required|string|exists:recipes,id',
             'payment_date' => 'required|date',
             'payment_method' => 'required',
+            'total_amount' => 'required',
         ];
     }
 }

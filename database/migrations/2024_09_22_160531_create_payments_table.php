@@ -18,8 +18,9 @@ return new class extends Migration
             $table->foreignUuid('recipe_id')->constrained('recipes')->onDelete('cascade');
             $table->dateTime('payment_date')->nullable();
             $table->string('payment_method')->nullable();
-            $table->string('status')->nullable()->default('unpaid');
+            $table->string('status')->nullable()->default('pending');
             $table->string('total_amount')->nullable();
+            $table->string('snap_token')->nullable();
             $table->timestamps();
         });
     }
