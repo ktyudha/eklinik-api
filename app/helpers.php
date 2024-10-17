@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Carbon\Carbon;
 
 if (!function_exists('customPaginate')) {
     /**
@@ -253,5 +254,32 @@ if (!function_exists('generateRandomString')) {
         }
 
         return $randomString;
+    }
+}
+
+if (!function_exists('generateMedicalRecordNumber')) {
+    function generateMedicalRecordNumber($lastRecordNo)
+    {
+        // Dapatkan tahun dan bulan dari nomor rekam medis terakhir
+        $lastYearMonth = substr($lastRecordNo, 0, 4); // Mengambil 4 karakter pertama (YYMM)
+
+        // Dapatkan tahun dan bulan saat ini
+        $currentYearMonth = Carbon::now()->format('ym');
+
+        if ($lastRecordNo == 0 || $lastYearMonth != $currentYearMonth) {
+            // Jika tidak ada rekam medis sebelumnya atau bulan berbeda, reset ke 1
+            $newSequence = str_pad(1, 6, '0', STR_PAD_LEFT);
+        } else {
+            // Ambil bagian angka urut terakhir dari nomor rekam medis sebelumnya
+            $lastSequence = (int)substr($lastRecordNo, -6);
+
+            // Tambahkan 1 untuk membuat nomor urut baru
+            $newSequence = str_pad($lastSequence + 1, 6, '0', STR_PAD_LEFT);
+        }
+
+        // Gabungkan tahun bulan dengan nomor urut baru
+        $newMedicalRecordNo = $currentYearMonth . $newSequence;
+
+        return $newMedicalRecordNo;
     }
 }

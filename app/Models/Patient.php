@@ -7,6 +7,7 @@ use App\Models\Region\City;
 use App\Models\Region\Province;
 use App\Models\Region\SubDistrict;
 use Laravel\Passport\HasApiTokens;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -51,6 +52,13 @@ class Patient extends Authenticatable
         'updated_at',
     ];
 
+    public function scopeFilters(Builder $query, array $filters)
+    {
+        $query
+            ->when(isset($filters['name']) && $filters['name'] !== null, function ($query) use ($filters) {
+                $query->where('name', 'like', '%' . $filters['name'] . '%');
+            });
+    }
 
     public function province()
     {

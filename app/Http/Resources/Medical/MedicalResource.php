@@ -3,6 +3,7 @@
 namespace App\Http\Resources\Medical;
 
 use App\Http\Resources\Medicine\RecipeResource;
+use App\Http\Resources\Patient\PatientResource;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -17,9 +18,9 @@ class MedicalResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'patient_id' => $this->patient_id,
-            'classification_id' => $this->classification_id,
             'checkup_date' => $this->checkup_date,
+            'classification_id' => $this->classification_id,
+            'patient' => $this->patient_id ? new PatientResource($this->patient) : null,
             'submenu' => $this->submenu,
             'recipes' => $this->whenLoaded('recipes', function () {
                 return RecipeResource::collection($this->recipes);

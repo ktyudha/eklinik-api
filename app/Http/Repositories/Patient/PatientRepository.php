@@ -21,4 +21,9 @@ class PatientRepository extends BaseRepository
     {
         return $this->patient->where('username', $username)->first();
     }
+
+    public function findLatest()
+    {
+        return $this->patient->latest()->first();
+    }
 }
