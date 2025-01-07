@@ -23,7 +23,7 @@ return new class extends Migration
             $table->string('email')->nullable();
             $table->string('phone_number')->nullable();
             $table->string('religion')->nullable();
-            $table->enum('gender', ['L', 'P']);
+            $table->enum('gender', ['Laki-laki', 'Perempuan']);
             $table->string('birth_place')->nullable();
             $table->date('birth_date')->nullable();
             $table->string('marital_status')->nullable();

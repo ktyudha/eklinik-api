@@ -29,7 +29,7 @@ class PatientCreateRequest extends FormRequest
             'email' => 'required|email|unique:patients,email',
             'phone_number' => 'required|string',
             'religion' => 'required|string',
-            'gender' => 'required|in:L,P',
+            'gender' => 'required|in:Laki-laki,Perempuan',
             'birth_place' => 'required|string',
             'birth_date' => 'required|date',
             'marital_status' => 'required|string',
