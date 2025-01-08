@@ -18,7 +18,7 @@ class Menu extends Model
 
     public function submenus()
     {
-        return $this->hasMany(Submenu::class);
+        return $this->hasMany(SubMenu::class);
     }
 
     public function classifications()
