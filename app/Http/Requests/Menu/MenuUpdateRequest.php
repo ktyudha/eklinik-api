@@ -22,7 +22,7 @@ class MenuUpdateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required|string|unique:menus,' . $this->id,
+            'name' => 'required|string|unique:menus,' . $this->route('id'),
             'is_active' => 'required',
         ];
     }

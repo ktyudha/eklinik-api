@@ -23,7 +23,7 @@ class SubMenuUpdateRequest extends FormRequest
     {
         return [
             'menu_id' => 'required|string',
-            'name' => 'required|string|unique:sub_menus,' . $this->id,
+            'name' => 'required|string|unique:sub_menus,' . $this->route('id'),
             'type' => 'required|in:textrich,input,textarea,radio,combobox,checkboxm,date,time,datetime,select',
             'is_active' => 'required',
         ];
