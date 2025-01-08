@@ -20,7 +20,7 @@ class SubMenuService
         return customPaginate(
             new SubMenu(),
             [
-                'property_name' => 'submenus',
+                'property_name' => 'sub_menus',
                 'resource' => SubMenuResource::class,
                 'sort_by' => 'oldest',
                 'sort_by_property' => 'id',
