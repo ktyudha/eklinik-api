@@ -17,6 +17,7 @@ class SubMenuService
 
     public function index(PaginationRequest $request): array
     {
+        $filters = $request->only(['name']);
         return customPaginate(
             new SubMenu(),
             [
@@ -25,7 +26,8 @@ class SubMenuService
                 'sort_by' => 'oldest',
                 'sort_by_property' => 'id',
             ],
-            $request->limit ?? 10
+            $request->limit ?? 10,
+            $filters
         );
     }
 
