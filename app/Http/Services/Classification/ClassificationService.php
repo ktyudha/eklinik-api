@@ -17,6 +17,7 @@ class ClassificationService
 
     public function index(PaginationRequest $request): array
     {
+        $filters = $request->only(['name']);
         return customPaginate(
             new Classification(),
             [
@@ -26,7 +27,8 @@ class ClassificationService
                 'sort_by_property' => 'id',
                 'relations' => ['menus'],
             ],
-            $request->limit ?? 10
+            $request->limit ?? 10,
+            $filters
         );
     }
 
