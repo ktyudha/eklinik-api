@@ -100,10 +100,12 @@ Route::prefix('v1')->group(function () {
                 Route::get('/provinces', [RegionController::class, 'provinceIndex']);
                 Route::get('/cities', [RegionController::class, 'cityIndex']);
                 Route::get('/sub-districts', [RegionController::class, 'subDistrictIndex']);
+                Route::get('/villages', [RegionController::class, 'villageIndex']);
                 Route::get('/countries', [RegionController::class, 'countryIndex']);
                 Route::get('/provinces/{id}', [RegionController::class, 'findOneProvince']);
                 Route::get('/cities/{id}', [RegionController::class, 'findOneCity']);
                 Route::get('/countries/{id}', [RegionController::class, 'findOneCountry']);
+                Route::get('/sub-districts/{id}', [RegionController::class, 'findOneSubDistrict']);
             });
         }
     );

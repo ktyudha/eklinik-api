@@ -19,6 +19,7 @@ class Village extends Model
     protected $fillable = [
         'sub_district_id',
         'name',
+        'postal_code',
     ];
 
     /**
