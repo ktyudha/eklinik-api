@@ -36,9 +36,9 @@ class SubDistrict extends Model
      *
      * @var array<string, string>
      */
-    // protected $casts = [
-    //     'id' => 'string',
-    // ];
+    protected $casts = [
+        'id' => 'string',
+    ];
 
     public function scopeFilters(Builder $query, array $filters)
     {
@@ -47,11 +47,11 @@ class SubDistrict extends Model
 
     public function city()
     {
-        return $this->belongsTo(City::class, 'city_id', 'id');
+        return $this->belongsTo(City::class);
     }
 
     public function villages()
     {
-        return $this->hasMany(Village::class);
+        return $this->hasMany(Village::class, 'sub_district_id', 'id');
     }
 }

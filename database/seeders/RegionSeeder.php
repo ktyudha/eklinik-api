@@ -16,6 +16,6 @@ class RegionSeeder extends Seeder
         $this->call(CitySeeder::class);
         $this->call(SubDistrictSeeder::class);
         $this->call(VillageSeeder::class);
-        // $this->call(CountrySeeder::class);
+        $this->call(CountrySeeder::class);
     }
 }

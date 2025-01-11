@@ -72,7 +72,6 @@ class City extends Model
     {
         return $this->hasMany(SubDistrict::class);
     }
-
     // public function schools()
     // {
     //     return $this->hasMany(School::class);
