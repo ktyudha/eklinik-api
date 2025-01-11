@@ -2,12 +2,12 @@
 
 namespace Database\Seeders;
 
-use App\Models\Region\SubDistrict;
+use App\Models\Region\Village;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
-class SubDistrictSeeder extends Seeder
+class VillageSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -15,25 +15,26 @@ class SubDistrictSeeder extends Seeder
     public function run(): void
     {
         Schema::disableForeignKeyConstraints();
-        SubDistrict::truncate();
+        Village::truncate();
         Schema::enableForeignKeyConstraints();
 
-        $csvPath = database_path('seed_files/districts.csv');
-        $rowHeaders = ['id', 'city_id', 'name', 'created_at', 'updated_at'];
+        $csvPath = database_path('seed_files/villages.csv');
+        $rowHeaders = ['id', 'sub_district_id', 'name', 'postal_code', 'created_at', 'updated_at'];
         $data = csvToArray($rowHeaders, $csvPath);
 
         $collection = collect($data)->map(function ($data) {
             return [
                 'id' => $data['id'],
-                'city_id' => $data['city_id'],
+                'sub_district_id' => $data['sub_district_id'],
                 'name' => trim($data['name']),
+                'postal_code' => trim($data['postal_code']),
                 'created_at' => now(),
                 'updated_at' => now(),
             ];
         });
 
         foreach ($collection->chunk(500) as $chunk) {
-            SubDistrict::insert($chunk->toArray());
+            Village::insert($chunk->toArray());
         }
     }
 }

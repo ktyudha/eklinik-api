@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class SubDistrict extends Model
+class Village extends Model
 {
     use HasFactory;
 
@@ -17,7 +17,7 @@ class SubDistrict extends Model
      * @var array<int, string>
      */
     protected $fillable = [
-        'city_id',
+        'sub_district_id',
         'name',
     ];
 
@@ -45,13 +45,8 @@ class SubDistrict extends Model
         //
     }
 
-    public function city()
+    public function subDistrict()
     {
-        return $this->belongsTo(City::class);
-    }
-
-    public function villages()
-    {
-        return $this->hasMany(Village::class);
+        return $this->belongsTo(SubDistrict::class);
     }
 }
