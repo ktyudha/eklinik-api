@@ -42,7 +42,10 @@ class SubDistrict extends Model
 
     public function scopeFilters(Builder $query, array $filters)
     {
-        //
+        $query
+            ->when(isset($filters['name']) && $filters['name'] !== null, function ($query) use ($filters) {
+                $query->where('name', 'like', '%' . $filters['name'] . '%');
+            });
     }
 
     public function city()
@@ -54,4 +57,16 @@ class SubDistrict extends Model
     {
         return $this->hasMany(Village::class, 'sub_district_id', 'id');
     }
+
+    // public function province()
+    // {
+    //     return $this->hasOneThrough(
+    //         Province::class,
+    //         City::class,
+    //         'id',            // Foreign key di City (relasi ke SubDistrict)
+    //         'id',            // Foreign key di Province (relasi ke City)
+    //         'city_id',       // Local key di SubDistrict (relasi ke City)
+    //         'province_id'
+    //     );
+    // }
 }

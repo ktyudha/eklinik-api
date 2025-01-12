@@ -97,6 +97,7 @@ Route::prefix('v1')->group(function () {
 
             // Region
             Route::prefix('region')->group(function () {
+                Route::get('/search', [RegionController::class, 'findVillageFilter']);
                 Route::get('/provinces', [RegionController::class, 'provinceIndex']);
                 Route::get('/cities', [RegionController::class, 'cityIndex']);
                 Route::get('/sub-districts', [RegionController::class, 'subDistrictIndex']);
@@ -106,6 +107,7 @@ Route::prefix('v1')->group(function () {
                 Route::get('/cities/{id}', [RegionController::class, 'findOneCity']);
                 Route::get('/countries/{id}', [RegionController::class, 'findOneCountry']);
                 Route::get('/sub-districts/{id}', [RegionController::class, 'findOneSubDistrict']);
+                Route::get('/villages/{id}', [RegionController::class, 'findOneVillage']);
             });
         }
     );
@@ -137,16 +139,4 @@ Route::prefix('v1')->group(function () {
             Route::delete('/payments/{id}', [PaymentController::class, 'destroy']);
         }
     );
-
-    Route::prefix('region')->group(function () {
-        Route::get('/provinces', [RegionController::class, 'provinceIndex']);
-        Route::get('/cities', [RegionController::class, 'cityIndex']);
-        Route::get('/sub-districts', [RegionController::class, 'subDistrictIndex']);
-        Route::get('/villages', [RegionController::class, 'villageIndex']);
-        Route::get('/countries', [RegionController::class, 'countryIndex']);
-        Route::get('/provinces/{id}', [RegionController::class, 'findOneProvince']);
-        Route::get('/cities/{id}', [RegionController::class, 'findOneCity']);
-        Route::get('/countries/{id}', [RegionController::class, 'findOneCountry']);
-        Route::get('/sub-districts/{id}', [RegionController::class, 'findOneSubDistrict']);
-    });
 });

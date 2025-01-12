@@ -17,7 +17,8 @@ class SubDistrictResource extends JsonResource
         return [
             'id' => $this->id,
             'name' => $this->name,
-            'villages' => VillageResource::collection($this->villages)
+            // 'city' => new CityResource($this->whenLoaded('city')),
+            // 'villages' => VillageResource::collection($this->whenLoaded('villages'))
         ];
     }
 }

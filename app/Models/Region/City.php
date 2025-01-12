@@ -42,6 +42,14 @@ class City extends Model
         'id' => 'string',
     ];
 
+    public function scopeFilters(Builder $query, array $filters)
+    {
+        $query
+            ->when(isset($filters['name']) && $filters['name'] !== null, function ($query) use ($filters) {
+                $query->where('name', 'like', '%' . $filters['name'] . '%');
+            });
+    }
+
     // public function scopeFilters(Builder $query, array $filters)
     // {
     //     $query
