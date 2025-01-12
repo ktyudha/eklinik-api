@@ -50,22 +50,10 @@ class Village extends Model
 
         $query
             ->when(isset($filters['name']) && $filters['name'] !== null, function ($query) use ($filters) {
-                // Prioritaskan province_id 35 terlebih dahulu
-                $query->whereHas('subDistrict.city.province', function ($query) {
-                    $query->where('id', 35);
-                });
-
-                $query
-                    ->when(isset($filters['name']) && $filters['name'] !== null, function ($query) use ($filters) {
-                        $query->where('name', 'like', '%' . $filters['name'] . '%');
+                $query->where('name', 'like', '%' . $filters['name'] . '%')
+                    ->whereHas('subDistrict.city.province', function ($query) {
+                        $query->where('id', 35);
                     });
-
-                // $query->where(function ($query) use ($filters) {
-                //     $query->where('name', 'like', '%' . $filters['name'] . '%')
-                //         ->orWhereHas('subDistrict', function ($query) use ($filters) {
-                //             $query->where('name', 'like', '%' . $filters['name'] . '%');
-                //         });
-                // });
             });
     }
 
