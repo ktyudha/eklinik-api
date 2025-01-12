@@ -43,18 +43,18 @@ class Village extends Model
 
     public function scopeFilters(Builder $query, array $filters)
     {
-        // $query
-        //     ->when(isset($filters['name']) && $filters['name'] !== null, function ($query) use ($filters) {
-        //         $query->where('name', 'like', '%' . $filters['name'] . '%');
-        //     });
-
         $query
             ->when(isset($filters['name']) && $filters['name'] !== null, function ($query) use ($filters) {
-                $query->where('name', 'like', '%' . $filters['name'] . '%')
-                    ->whereHas('subDistrict.city.province', function ($query) {
-                        $query->where('id', 35);
-                    });
+                $query->where('name', 'like', '%' . $filters['name'] . '%');
             });
+
+        // $query
+        //     ->when(isset($filters['name']) && $filters['name'] !== null, function ($query) use ($filters) {
+        //         $query->where('name', 'like', '%' . $filters['name'] . '%')
+        //             ->whereHas('subDistrict.city.province', function ($query) {
+        //                 $query->where('id', 35);
+        //             });
+        //     });
     }
 
     public function subDistrict()
