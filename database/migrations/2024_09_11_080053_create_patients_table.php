@@ -32,10 +32,12 @@ return new class extends Migration
             $table->char('province_id', 6)->nullable();
             $table->char('city_id', 6)->nullable();
             $table->char('sub_district_id', 6)->nullable();
+            $table->char('village_id', 12)->nullable();
             $table->foreign('province_id')->references('id')->on('provinces');
             $table->foreign('city_id')->references('id')->on('cities');
             $table->foreign('sub_district_id')->references('id')->on('sub_districts');
-            $table->text('village');
+            $table->foreign('village_id')->references('id')->on('villages');
+            $table->text('additional_address')->nullable();
             $table->timestamps();
         });
     }

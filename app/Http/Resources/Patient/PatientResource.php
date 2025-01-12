@@ -3,6 +3,7 @@
 namespace App\Http\Resources\Patient;
 
 use App\Http\Resources\Medical\MedicalResource;
+use App\Http\Resources\Region\VillageResource;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -42,7 +43,8 @@ class PatientResource extends JsonResource
                 'id' => $this->subDistrict->id,
                 'name' => $this->subDistrict->name,
             ] : null,
-            'village' => $this->village,
+            'village' => new VillageResource($this->village),
+            'additional_address' => $this->additional_address,
             'medicals' => $this->whenLoaded('medicals', function () {
                 return MedicalResource::collection($this->medicals);
             }),

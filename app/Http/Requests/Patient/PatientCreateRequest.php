@@ -25,7 +25,7 @@ class PatientCreateRequest extends FormRequest
             // 'medical_record_number' => 'required',
             'name' => 'required|string',
             'username' => 'required|string',
-            'nik' => 'required|string',
+            'nik' => 'required|string|unique:patients,nik',
             'email' => 'required|email|unique:patients,email',
             'phone_number' => 'required|string',
             'religion' => 'required|string',
@@ -38,7 +38,8 @@ class PatientCreateRequest extends FormRequest
             'province_id' => 'required|exists:provinces,id',
             'city_id' => 'required|exists:cities,id',
             'sub_district_id' => 'required|exists:sub_districts,id',
-            'village' => 'required|string',
+            'village_id' => 'required|exists:villages,id',
+            'additional_address' => 'string',
         ];
     }
 }

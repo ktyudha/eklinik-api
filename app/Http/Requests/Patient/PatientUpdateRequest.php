@@ -37,7 +37,8 @@ class PatientUpdateRequest extends FormRequest
             'province_id' => 'required|exists:provinces,id',
             'city_id' => 'required|exists:cities,id',
             'sub_district_id' => 'required|exists:sub_districts,id',
-            'village' => 'required|string',
+            'village_id' => 'required|exists:villages,id',
+            'additional_address' => 'string',
         ];
     }
 }
