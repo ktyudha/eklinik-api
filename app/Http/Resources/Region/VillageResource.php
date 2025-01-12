@@ -20,9 +20,9 @@ class VillageResource extends JsonResource
             'id' => $this->id,
             'name' => $this->name,
             'postal_code' => $this->postal_code,
-            'sub_district' => new SubDistrictResource($this->whenLoaded('subDistrict')),
-            'city' => new CityResource($this->whenLoaded('subDistrict', fn($subDistrict) => $subDistrict->city)),
-            'province' => new ProvinceResource($this->whenLoaded('subDistrict', fn($subDistrict) => $subDistrict->city?->province)),
+            // 'sub_district' => new SubDistrictResource($this->whenLoaded('subDistrict')),
+            // 'city' => new CityResource($this->whenLoaded('subDistrict', fn($subDistrict) => $subDistrict->city)),
+            // 'province' => new ProvinceResource($this->whenLoaded('subDistrict', fn($subDistrict) => $subDistrict->city?->province)),
         ];
     }
 }
