@@ -44,7 +44,7 @@ class ClassificationService
 
     public function update($id, ClassificationUpdateRequest $request)
     {
-        return $this->classificationRepository->update($id, $request->validated());
+        return $this->classificationRepository->updateClassificationWithMenu($id, $request->validated());
     }
 
     public function destroy($id)
