@@ -16,6 +16,7 @@ use App\Http\Requests\Pagination\PaginationRequest;
 use App\Http\Repositories\Region\ProvinceRepository;
 use App\Http\Repositories\Region\SubDistrictRepository;
 use App\Http\Services\Region\RegionService;
+use App\Http\Services\Region\VillageService;
 
 class RegionController extends Controller
 {
@@ -25,7 +26,8 @@ class RegionController extends Controller
         protected SubDistrictRepository $subDistrictRepository,
         protected CountryRepository $countryRepository,
         protected VillageRepository $villageRepository,
-        protected RegionService $regionService
+        protected RegionService $regionService,
+        protected VillageService $villageService
     ) {}
 
     public function provinceIndex()
@@ -107,13 +109,13 @@ class RegionController extends Controller
         ]);
     }
 
-    // public function findVillageFilter(PaginationRequest $request): array
-    // {
-    //     return $this->villageService->index($request);
-    // }
-
-    public function findVillageFilter(Request $request)
+    public function findVillageFilter(PaginationRequest $request): array
     {
-        return $this->regionService->index($request);
+        return $this->villageService->index($request);
     }
+
+    // public function findVillageFilter(Request $request)
+    // {
+    //     return $this->regionService->index($request);
+    // }
 }

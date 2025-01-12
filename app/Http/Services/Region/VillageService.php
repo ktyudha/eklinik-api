@@ -27,7 +27,7 @@ class VillageService
                 'resource' => VillageResource::class,
                 'sort_by' => 'latest',
                 'sort_by_property' => 'id',
-                // 'relations' => ['subDistrict'],
+                'relations' => ['subDistrict'],
             ],
             $request->page_limit ?? 10,
             $filters
