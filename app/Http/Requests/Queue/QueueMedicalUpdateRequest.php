@@ -22,8 +22,8 @@ class QueueMedicalUpdateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'patient_id' => 'required',
-            'appointment_date' => 'required|date',
+            // 'patient_id' => 'required',
+            'queue_date' => 'required|date',
             'description' => 'required',
         ];
     }

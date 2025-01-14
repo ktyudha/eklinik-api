@@ -6,11 +6,6 @@ namespace App\Enums\Region;
 
 use BenSampo\Enum\Enum;
 
-/**
- * @method static static OptionOne()
- * @method static static OptionTwo()
- * @method static static OptionThree()
- */
 final class RegionEnum extends Enum
 {
     const PROVINCE = 'provinces';

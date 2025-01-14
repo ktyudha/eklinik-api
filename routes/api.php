@@ -123,6 +123,10 @@ Route::prefix('v1')->group(function () {
                 Route::get('/appointments/{id}', [QueueMedicalController::class, 'show']);
                 Route::put('/appointments/{id}', [QueueMedicalController::class, 'update']);
                 Route::delete('/appointments/{id}', [QueueMedicalController::class, 'destroy']);
+
+
+                // Medical History
+                Route::get('medicals', [MedicalController::class, 'index']);
             });
         }
     );

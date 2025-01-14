@@ -13,13 +13,14 @@ class QueueMedical extends Model
 
     protected $fillable = [
         'patient_id',
-        'appointment_date',
+        'queue_date',
+        'queue_number',
         'description',
         'status'
     ];
 
     protected $casts = [
-        'appointment_date' => 'datetime',
+        'queue_date' => 'datetime',
     ];
 
     public function patient()
