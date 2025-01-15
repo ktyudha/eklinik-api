@@ -18,13 +18,13 @@ class ProvinceResource extends JsonResource
         return [
             'id' => $this->id,
             'name' => $this->name,
-            // 'cities' => CityResource::collection($this->whenLoaded('cities'))
-            'cities' => collect($this->cities)->map(function ($city) {
-                return [
-                    'id' => $city->id,
-                    'name' => $city->name,
-                ];
-            }),
+            'cities' => CityResource::collection($this->whenLoaded('cities'))
+            // 'cities' => collect($this->cities)->map(function ($city) {
+            //     return [
+            //         'id' => $city->id,
+            //         'name' => $city->name,
+            //     ];
+            // }),
         ];
     }
 }

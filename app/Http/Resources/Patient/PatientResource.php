@@ -3,6 +3,9 @@
 namespace App\Http\Resources\Patient;
 
 use App\Http\Resources\Medical\MedicalResource;
+use App\Http\Resources\Region\CityResource;
+use App\Http\Resources\Region\ProvinceResource;
+use App\Http\Resources\Region\SubDistrictResource;
 use App\Http\Resources\Region\VillageResource;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
@@ -31,19 +34,22 @@ class PatientResource extends JsonResource
             'marital_status' => $this->marital_status,
             'education' => $this->education,
             'job' => $this->job,
-            'province' => $this->province_id ? [
-                'id' => $this->province->id,
-                'name' => $this->province->name,
-            ] : null,
-            'city' => $this->city_id ? [
-                'id' => $this->city->id,
-                'name' => $this->city->name,
-            ] : null,
-            'sub_district' => $this->sub_district_id ? [
-                'id' => $this->subDistrict->id,
-                'name' => $this->subDistrict->name,
-            ] : null,
-            'village' => new VillageResource($this->village),
+            // 'province' => $this->province_id ? [
+            //     'id' => $this->province->id,
+            //     'name' => $this->province->name,
+            // ] : null,
+            // 'city' => $this->city_id ? [
+            //     'id' => $this->city->id,
+            //     'name' => $this->city->name,
+            // ] : null,
+            // 'sub_district' => $this->sub_district_id ? [
+            //     'id' => $this->subDistrict->id,
+            //     'name' => $this->subDistrict->name,
+            // ] : null,
+            'province' => $this->whenLoaded('province', new ProvinceResource($this->province)),
+            'city' => $this->whenLoaded('city', new CityResource($this->city)),
+            'sub_district' => $this->whenLoaded('subDistrict', new SubDistrictResource($this->subDistrict)),
+            'village' => $this->whenLoaded('village', new VillageResource($this->village)),
             'additional_address' => $this->additional_address,
             'medicals' => $this->whenLoaded('medicals', function () {
                 return MedicalResource::collection($this->medicals);
