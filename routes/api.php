@@ -15,6 +15,7 @@ use App\Http\Controllers\Api\Medicine\MedicineController;
 use App\Http\Controllers\Api\Medicine\RecipeController;
 use App\Http\Controllers\Api\Payment\PaymentController;
 use App\Http\Controllers\Api\Queue\QueueMedicalController;
+use App\Http\Controllers\SurabayaBusController;
 
 Route::prefix('v1')->group(function () {
     // Patient Login
@@ -143,4 +144,8 @@ Route::prefix('v1')->group(function () {
             Route::delete('/payments/{id}', [PaymentController::class, 'destroy']);
         }
     );
+
+    // SURABAYA BUS
+    Route::get('/menusb', [SurabayaBusController::class, 'getMenuSb']);
+    Route::get('/detail-route/{routeId}/{bearerToken}', [SurabayaBusController::class, 'getDetailRoute']);
 });
