@@ -20,7 +20,7 @@ class PatientMedicalService
     {
         // $filters = $request->only(['name']);
 
-        $patientId = Auth::guard('patient-api')->user()->id;
+        $patientId = auth('patient-api')->user()->id;
         $model = Medical::where('patient_id', $patientId);
 
         return customPaginate(

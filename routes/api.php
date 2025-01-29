@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\SurabayaBusController;
 use App\Http\Controllers\Api\Auth\AuthController;
 use App\Http\Controllers\Api\Menu\MenuController;
 use App\Http\Controllers\Api\User\UserController;
@@ -8,14 +9,14 @@ use App\Http\Controllers\Api\Menu\SubMenuController;
 use App\Http\Controllers\Api\Region\RegionController;
 use App\Http\Controllers\Api\Auth\AdminAuthController;
 use App\Http\Controllers\Api\Medical\MedicalController;
-use App\Http\Controllers\Api\Patient\PatientController;
-use App\Http\Controllers\Api\Classification\ClassificationController;
-use App\Http\Controllers\Api\Medicine\MedicineCategoryController;
-use App\Http\Controllers\Api\Medicine\MedicineController;
 use App\Http\Controllers\Api\Medicine\RecipeController;
+use App\Http\Controllers\Api\Patient\PatientController;
 use App\Http\Controllers\Api\Payment\PaymentController;
+use App\Http\Controllers\Api\Medicine\MedicineController;
 use App\Http\Controllers\Api\Queue\QueueMedicalController;
-use App\Http\Controllers\SurabayaBusController;
+use App\Http\Controllers\Api\Medical\PatientMedicalController;
+use App\Http\Controllers\Api\Medicine\MedicineCategoryController;
+use App\Http\Controllers\Api\Classification\ClassificationController;
 
 Route::prefix('v1')->group(function () {
     // Patient Login
@@ -127,7 +128,7 @@ Route::prefix('v1')->group(function () {
 
 
                 // Medical History
-                Route::get('medicals', [MedicalController::class, 'index']);
+                Route::get('medicals', [PatientMedicalController::class, 'index']);
             });
         }
     );
