@@ -144,8 +144,4 @@ Route::prefix('v1')->group(function () {
             Route::delete('/payments/{id}', [PaymentController::class, 'destroy']);
         }
     );
-
-    // SURABAYA BUS
-    Route::get('/menusb', [SurabayaBusController::class, 'getMenuSb']);
-    Route::get('/detail-route/{routeId}/{bearerToken}', [SurabayaBusController::class, 'getDetailRoute']);
 });
