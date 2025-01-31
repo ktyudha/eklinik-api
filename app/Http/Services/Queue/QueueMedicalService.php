@@ -28,7 +28,7 @@ class QueueMedicalService
             $queueMedical = $request->validated();
             $patientId = Auth::guard('patient-api')->user()->id;
 
-            $existAwaiting = $this->queueMedicalRepository->isAwaitingByPatientId($patientId);
+            $existAwaiting = $this->queueMedicalRepository->isAwaiting($patientId);
 
             if ($existAwaiting) {
                 return response()->json(['message' => 'You already have an awaiting appointment.'], 400);
@@ -69,7 +69,7 @@ class QueueMedicalService
     {
         $patientId = Auth::guard('patient-api')->user()->id;
 
-        $queue = $this->queueMedicalRepository->findByIdPatientId($id, $patientId)->exists();
+        $queue = $this->queueMedicalRepository->findByIdPatientId($id, $patientId);
 
         if (!$queue) {
             return response()->json(['error' => 'Unauthorized to cancel this appointment'], 403);
@@ -78,24 +78,19 @@ class QueueMedicalService
         $cancelQueue = $this->queueMedicalRepository->update($id, ['status' => 'cancel']);
         return response()->json([
             'message' => 'success',
-            'appointment' => new QueueMedicalResource($cancelQueue)
         ]);
     }
 
     public function getOneQueueActive()
     {
         $patientId = Auth::guard('patient-api')->user()->id;
-        $existAwaiting = $this->queueMedicalRepository->isAwaitingByPatientId($patientId);
+        $queueNow = $this->queueMedicalRepository->isAwaiting();
+        $existAwaiting = $this->queueMedicalRepository->isAwaiting($patientId);
 
-        if (!$existAwaiting) {
-            return response()->json([
-                'message' => 'No appointment found',
-                'appointment' => null
-            ]);
-        }
         return response()->json([
             'message' => 'success',
-            'appointment' => new QueueMedicalResource($existAwaiting)
+            'queue_number_now' => $queueNow->queue_number,
+            'appointment' => $existAwaiting ? new QueueMedicalResource($existAwaiting) : null
         ]);
     }
 

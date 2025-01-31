@@ -25,11 +25,12 @@ class QueueMedicalRepository extends BaseRepository
         return $this->queueMedical::where('patient_id', $patientId)->get();
     }
 
-    public function isAwaitingByPatientId($patientId)
+    public function isAwaiting($patientId = null)
     {
-        return $this->queueMedical::where('patient_id', $patientId)->whereDate('created_at', Carbon::today())
-            ->where('status', 'waiting')
-            ->first();
+        return $this->queueMedical::isAwaiting($patientId)->first();
+        // return $this->queueMedical::where('patient_id', $patientId)->whereDate('created_at', Carbon::today())
+        //     ->where('status', 'waiting')
+        //     ->first();
     }
 
     public function incrementQueueNumber()
