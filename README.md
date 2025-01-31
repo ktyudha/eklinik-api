@@ -29,5 +29,6 @@ git clone https://github.com/ktyudha/eklink-api.git
 **Clone Repository**
 
 ```bash
+php artisan passport:keys
 php artisan passport:client --personal
 ```
