@@ -53,4 +53,9 @@ class QueueMedicalController extends Controller
     {
         return $this->queueMedicalService->cancel($id);
     }
+
+    public function getOneQueueActive()
+    {
+        return $this->queueMedicalService->getOneQueueActive();
+    }
 }

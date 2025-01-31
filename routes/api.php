@@ -122,10 +122,11 @@ Route::prefix('v1')->group(function () {
                 // Appointment
                 Route::get('/appointments', [QueueMedicalController::class, 'index']);
                 Route::post('/appointments', [QueueMedicalController::class, 'store']);
-                Route::get('/appointments/{id}', [QueueMedicalController::class, 'show']);
-                Route::put('/appointments/{id}', [QueueMedicalController::class, 'update']);
-                Route::delete('/appointments/{id}', [QueueMedicalController::class, 'destroy']);
+                // Route::get('/appointments/{id}', [QueueMedicalController::class, 'show']);
+                // Route::put('/appointments/{id}', [QueueMedicalController::class, 'update']);
+                // Route::delete('/appointments/{id}', [QueueMedicalController::class, 'destroy']);
                 Route::post('/appointments/cancel/{id}', [QueueMedicalController::class, 'cancel'])->name('queue.cancel');
+                Route::get('/appointments/active', [QueueMedicalController::class, 'getOneQueueActive'])->name('queue.getOneQueueActive');
 
                 // Medical History
                 Route::get('medicals', [PatientMedicalController::class, 'index']);

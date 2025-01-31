@@ -69,7 +69,7 @@ class QueueMedicalService
     {
         $patientId = Auth::guard('patient-api')->user()->id;
 
-        $queue = $this->queueMedicalRepository->findByIdPatientId($id, $patientId);
+        $queue = $this->queueMedicalRepository->findByIdPatientId($id, $patientId)->exists();
 
         if (!$queue) {
             return response()->json(['error' => 'Unauthorized to cancel this appointment'], 403);
@@ -79,6 +79,23 @@ class QueueMedicalService
         return response()->json([
             'message' => 'success',
             'appointment' => new QueueMedicalResource($cancelQueue)
+        ]);
+    }
+
+    public function getOneQueueActive()
+    {
+        $patientId = Auth::guard('patient-api')->user()->id;
+        $existAwaiting = $this->queueMedicalRepository->isAwaitingByPatientId($patientId);
+
+        if (!$existAwaiting) {
+            return response()->json([
+                'message' => 'No appointment found',
+                'appointment' => null
+            ]);
+        }
+        return response()->json([
+            'message' => 'success',
+            'appointment' => new QueueMedicalResource($existAwaiting)
         ]);
     }
 

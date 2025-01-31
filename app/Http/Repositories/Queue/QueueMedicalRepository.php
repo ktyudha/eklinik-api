@@ -29,7 +29,7 @@ class QueueMedicalRepository extends BaseRepository
     {
         return $this->queueMedical::where('patient_id', $patientId)->whereDate('created_at', Carbon::today())
             ->where('status', 'waiting')
-            ->exists();;
+            ->first();
     }
 
     public function incrementQueueNumber()
