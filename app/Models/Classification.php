@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Traits\Uuid;
 use App\Models\Menu\Menu;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Builder;
 
 class Classification extends Model
 {
@@ -18,6 +19,16 @@ class Classification extends Model
         'is_active',
 
     ];
+
+
+    public function scopeFilters(Builder $query, array $filters)
+    {
+        $query
+            ->when(isset($filters['name']) && $filters['name'] !== null, function ($query) use ($filters) {
+                $query->where('name', 'like', '%' . $filters['name'] . '%');
+            });
+    }
+
 
     public function syncMenus(array $menuIds)
     {

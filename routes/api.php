@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\SurabayaBusController;
 use App\Http\Controllers\Api\Auth\AuthController;
 use App\Http\Controllers\Api\Menu\MenuController;
 use App\Http\Controllers\Api\User\UserController;
@@ -8,13 +9,14 @@ use App\Http\Controllers\Api\Menu\SubMenuController;
 use App\Http\Controllers\Api\Region\RegionController;
 use App\Http\Controllers\Api\Auth\AdminAuthController;
 use App\Http\Controllers\Api\Medical\MedicalController;
-use App\Http\Controllers\Api\Patient\PatientController;
-use App\Http\Controllers\Api\Classification\ClassificationController;
-use App\Http\Controllers\Api\Medicine\MedicineCategoryController;
-use App\Http\Controllers\Api\Medicine\MedicineController;
 use App\Http\Controllers\Api\Medicine\RecipeController;
+use App\Http\Controllers\Api\Patient\PatientController;
 use App\Http\Controllers\Api\Payment\PaymentController;
+use App\Http\Controllers\Api\Medicine\MedicineController;
 use App\Http\Controllers\Api\Queue\QueueMedicalController;
+use App\Http\Controllers\Api\Medical\PatientMedicalController;
+use App\Http\Controllers\Api\Medicine\MedicineCategoryController;
+use App\Http\Controllers\Api\Classification\ClassificationController;
 
 Route::prefix('v1')->group(function () {
     // Patient Login
@@ -97,13 +99,17 @@ Route::prefix('v1')->group(function () {
 
             // Region
             Route::prefix('region')->group(function () {
+                Route::get('/search', [RegionController::class, 'findVillageFilter']);
                 Route::get('/provinces', [RegionController::class, 'provinceIndex']);
                 Route::get('/cities', [RegionController::class, 'cityIndex']);
                 Route::get('/sub-districts', [RegionController::class, 'subDistrictIndex']);
+                Route::get('/villages', [RegionController::class, 'villageIndex']);
                 Route::get('/countries', [RegionController::class, 'countryIndex']);
                 Route::get('/provinces/{id}', [RegionController::class, 'findOneProvince']);
                 Route::get('/cities/{id}', [RegionController::class, 'findOneCity']);
                 Route::get('/countries/{id}', [RegionController::class, 'findOneCountry']);
+                Route::get('/sub-districts/{id}', [RegionController::class, 'findOneSubDistrict']);
+                Route::get('/villages/{id}', [RegionController::class, 'findOneVillage']);
             });
         }
     );
@@ -119,6 +125,10 @@ Route::prefix('v1')->group(function () {
                 Route::get('/appointments/{id}', [QueueMedicalController::class, 'show']);
                 Route::put('/appointments/{id}', [QueueMedicalController::class, 'update']);
                 Route::delete('/appointments/{id}', [QueueMedicalController::class, 'destroy']);
+
+
+                // Medical History
+                Route::get('medicals', [PatientMedicalController::class, 'index']);
             });
         }
     );

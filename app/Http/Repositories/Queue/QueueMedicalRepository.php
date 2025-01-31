@@ -12,8 +12,24 @@ class QueueMedicalRepository extends BaseRepository
         parent::__construct($queueMedical);
     }
 
-    public function fetchByPatientId(string $patientId)
+    public function findByIdPatientId(
+        string $queueMedicalId,
+        string $patientId
+    ) {
+        return QueueMedical::where('patient_id', $patientId)->find($queueMedicalId);
+    }
+    public function getByPatientId(string $patientId)
     {
-        return QueueMedical::where('patient_id', $patientId)->first();
+        return QueueMedical::where('patient_id', $patientId)->get();
+    }
+
+    public function incrementQueueNumber()
+    {
+        $today = now()->toDateString();
+
+        $lastQueue = QueueMedical::whereDate('created_at', $today)
+            ->orderBy('queue_number', 'desc')
+            ->first();
+        return $lastQueue ? $lastQueue->queue_number + 1 : 1;
     }
 }

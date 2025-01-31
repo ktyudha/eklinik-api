@@ -19,7 +19,7 @@ class CitySeeder extends Seeder
         City::truncate();
         Schema::enableForeignKeyConstraints();
 
-        $csvPath = database_path('seed_files/cities.csv');
+        $csvPath = database_path('seed_files/regencies.csv');
         $rowHeaders = ['id', 'province_id', 'name', 'created_at', 'updated_at'];
         $data = csvToArray($rowHeaders, $csvPath);
 
