@@ -89,7 +89,7 @@ class QueueMedicalService
 
         return response()->json([
             'message' => 'success',
-            'queue_number_now' => $queueNow->queue_number,
+            'queue_number_now' => $queueNow->queue_number ?? null,
             'appointment' => $existAwaiting ? new QueueMedicalResource($existAwaiting) : null
         ]);
     }
