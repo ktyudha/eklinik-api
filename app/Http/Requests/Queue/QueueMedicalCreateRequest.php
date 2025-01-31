@@ -23,7 +23,7 @@ class QueueMedicalCreateRequest extends FormRequest
     {
         return [
             // 'patient_id' => 'required|string',
-            'queue_date' => 'required|date',
+            // 'queue_date' => 'required|date',
             'description' => 'required|string',
         ];
     }

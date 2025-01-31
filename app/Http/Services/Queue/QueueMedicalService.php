@@ -2,11 +2,13 @@
 
 namespace App\Http\Services\Queue;
 
+use Illuminate\Support\Facades\DB;
 use App\Enums\Role\Casemix\CasemixEnum;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\Queue\QueueMedicalCreateRequest;
 use App\Http\Requests\Queue\QueueMedicalUpdateRequest;
 use App\Http\Repositories\Queue\QueueMedicalRepository;
+use App\Http\Resources\Queue\QueueMedicalResource;
 
 class QueueMedicalService
 {
@@ -22,15 +24,27 @@ class QueueMedicalService
 
     public function store(QueueMedicalCreateRequest $request)
     {
-        $queueMedical = $request->validated();
-        // $patientId = Auth::guard('patient-api')->user()->id;
-        // $queue_number = 'Q' . $this->queueMedicalRepository->incrementQueueNumber();
-        $queueMedical['patient_id'] = Auth::guard('patient-api')->user()->id;
-        $queueMedical['queue_number'] = 'Q' . $this->queueMedicalRepository->incrementQueueNumber();
+        return DB::transaction(function () use ($request) {
+            $queueMedical = $request->validated();
+            $patientId = Auth::guard('patient-api')->user()->id;
 
-        // $data = array_merge($request->validated(), ['patient_id' => $patientId, 'queue_number' => $queue_number]);
+            $existAwaiting = $this->queueMedicalRepository->isAwaitingByPatientId($patientId);
 
-        return $this->queueMedicalRepository->create($queueMedical);
+            if ($existAwaiting) {
+                return response()->json(['message' => 'You already have an awaiting appointment.'], 400);
+            }
+
+            $queueNumber = $this->queueMedicalRepository->incrementQueueNumber();
+
+            $queueMedical['patient_id'] = $patientId;
+            $queueMedical['queue_date'] = now();
+            $queueMedical['queue_number'] = $queueNumber;
+
+            return response()->json([
+                'message' => 'success',
+                'appointment' => new QueueMedicalResource($this->queueMedicalRepository->create($queueMedical))
+            ]);
+        });
     }
 
     public function show($id)
@@ -51,7 +65,24 @@ class QueueMedicalService
         $this->queueMedicalRepository->delete($id);
     }
 
-    public function handleCasemixType($status)
+    public function cancel($id)
+    {
+        $patientId = Auth::guard('patient-api')->user()->id;
+
+        $queue = $this->queueMedicalRepository->findByIdPatientId($id, $patientId);
+
+        if (!$queue) {
+            return response()->json(['error' => 'Unauthorized to cancel this appointment'], 403);
+        }
+
+        $cancelQueue = $this->queueMedicalRepository->update($id, ['status' => 'cancel']);
+        return response()->json([
+            'message' => 'success',
+            'appointment' => new QueueMedicalResource($cancelQueue)
+        ]);
+    }
+
+    function handleCasemixType($status)
     {
         switch ($status) {
             case CasemixEnum::RAWAT_JALAN:

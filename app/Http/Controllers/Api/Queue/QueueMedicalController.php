@@ -22,10 +22,7 @@ class QueueMedicalController extends Controller
 
     public function store(QueueMedicalCreateRequest $request)
     {
-        return response()->json([
-            'message' => 'success',
-            'appointment' => new QueueMedicalResource($this->queueMedicalService->store($request))
-        ]);
+        return $this->queueMedicalService->store($request);
     }
 
     public function show($id)
@@ -50,5 +47,10 @@ class QueueMedicalController extends Controller
         return response()->json([
             'message' => 'success'
         ]);
+    }
+
+    public function cancel($id)
+    {
+        return $this->queueMedicalService->cancel($id);
     }
 }
