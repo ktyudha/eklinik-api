@@ -21,7 +21,6 @@ class AdminQueueMedicalService
 
     public function index(PaginationRequest $request): array
     {
-        // Kok Gabisa
         Validator::make($request->only(['status', 'patient_name', 'queue_date', 'complaint']), [
             'status' => 'nullable|in:waiting,cancel,finished',
             'patient_name' => 'nullable|string',

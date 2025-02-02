@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Api\Queue;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Pagination\PaginationRequest;
-use App\Http\Services\Queue\adminQueueMedicalService;
+use App\Http\Services\Queue\AdminQueueMedicalService;
 use App\Http\Resources\Queue\QueueMedicalResource;
 use App\Http\Requests\Queue\QueueMedicalCreateRequest;
 use App\Http\Requests\Queue\QueueMedicalUpdateRequest;
