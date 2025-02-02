@@ -25,6 +25,7 @@ class QueueMedicalUpdateRequest extends FormRequest
             // 'patient_id' => 'required',
             'queue_date' => 'required|date',
             'description' => 'required',
+            'status' => 'nullable|in:finished,cancel,waiting'
         ];
     }
 }

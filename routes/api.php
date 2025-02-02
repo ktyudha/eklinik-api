@@ -17,6 +17,7 @@ use App\Http\Controllers\Api\Queue\QueueMedicalController;
 use App\Http\Controllers\Api\Medical\PatientMedicalController;
 use App\Http\Controllers\Api\Medicine\MedicineCategoryController;
 use App\Http\Controllers\Api\Classification\ClassificationController;
+use App\Http\Controllers\Api\Queue\AdminQueueMedicalController;
 
 Route::prefix('v1')->group(function () {
     // Patient Login
@@ -94,6 +95,13 @@ Route::prefix('v1')->group(function () {
                 Route::get('/recipes/{id}', [RecipeController::class, 'show']);
                 Route::put('/recipes/{id}', [RecipeController::class, 'update']);
                 Route::delete('/recipes/{id}', [RecipeController::class, 'destroy']);
+
+                // Appointments
+                Route::get('/appointments', [AdminQueueMedicalController::class, 'index']);
+                Route::get('/appointments/{id}', [AdminQueueMedicalController::class, 'show']);
+                Route::post('/appointments', [AdminQueueMedicalController::class, 'store']);
+                Route::put('/appointments/{id}', [AdminQueueMedicalController::class, 'update']);
+                Route::delete('/appointments/{id}', [AdminQueueMedicalController::class, 'destroy']);
             });
 
 

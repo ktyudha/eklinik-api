@@ -22,7 +22,6 @@ class QueueMedicalCreateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            // 'patient_id' => 'required|string',
             // 'queue_date' => 'required|date',
             'description' => 'required|string',
         ];
