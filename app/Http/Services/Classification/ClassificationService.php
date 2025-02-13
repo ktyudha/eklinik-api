@@ -39,7 +39,7 @@ class ClassificationService
 
     public function show($id)
     {
-        return $this->classificationRepository->findById($id, ['menus']);
+        return $this->classificationRepository->findById($id, ['menus.submenus']);
     }
 
     public function update($id, ClassificationUpdateRequest $request)
