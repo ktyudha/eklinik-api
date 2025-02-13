@@ -18,6 +18,8 @@ use App\Http\Controllers\Api\Medical\PatientMedicalController;
 use App\Http\Controllers\Api\Medicine\MedicineCategoryController;
 use App\Http\Controllers\Api\Classification\ClassificationController;
 use App\Http\Controllers\Api\Queue\AdminQueueMedicalController;
+use App\Http\Controllers\Api\Schedule\ScheduleController;
+use App\Http\Controllers\Api\Schedule\AdminScheduleController;
 
 Route::prefix('v1')->group(function () {
     // Patient Login
@@ -102,6 +104,13 @@ Route::prefix('v1')->group(function () {
                 Route::post('/appointments', [AdminQueueMedicalController::class, 'store']);
                 Route::put('/appointments/{id}', [AdminQueueMedicalController::class, 'update']);
                 Route::delete('/appointments/{id}', [AdminQueueMedicalController::class, 'destroy']);
+
+                // Schedule
+                Route::get('/schedules', [AdminScheduleController::class, 'index']);
+                Route::get('/schedules/{id}', [AdminScheduleController::class, 'show']);
+                Route::post('/schedules', [AdminScheduleController::class, 'store']);
+                Route::put('/schedules/{id}', [AdminScheduleController::class, 'update']);
+                Route::delete('/schedules/{id}', [AdminScheduleController::class, 'destroy']);
             });
 
 
@@ -154,4 +163,6 @@ Route::prefix('v1')->group(function () {
             Route::delete('/payments/{id}', [PaymentController::class, 'destroy']);
         }
     );
+
+    Route::get('/schedules', [ScheduleController::class, 'index']);
 });
