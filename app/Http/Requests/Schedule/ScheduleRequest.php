@@ -23,8 +23,8 @@ class ScheduleRequest extends FormRequest
     {
         return [
             'day' => 'required|in:Monday,Tuesday,Wednesday,Thursday,Friday,Saturday,Sunday',
-            'start_time' => 'nullable|date_format:H:i:s',
-            'end_time' => 'nullable|date_format:H:i:s',
+            'start_time' => 'nullable|date_format:H:i',
+            'end_time' => 'nullable|date_format:H:i',
             'specific_date' => 'nullable|date',
             'information' => 'nullable|string',
             'is_active' => 'nullable'
