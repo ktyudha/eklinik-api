@@ -48,7 +48,7 @@ class MedicalService
     public function update($id, MedicalUpdateRequest $request)
     {
         return $this->medicalRepository->update($id, $request->validated());
-        return $id;
+        // return $id;
     }
 
     public function destroy($id)
