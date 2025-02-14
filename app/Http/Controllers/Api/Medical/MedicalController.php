@@ -38,7 +38,7 @@ class MedicalController extends Controller
         return response()->json([
             'message' => 'success',
             // 'medical' => new MedicalResource($this->medicalService->update($id, $request))
-            'medical' => $this->medicalService->update($id, $request)
+            // 'medical' => $this->medicalService->update($id, $request)
         ]);
     }
 
