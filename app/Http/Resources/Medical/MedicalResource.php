@@ -26,6 +26,7 @@ class MedicalResource extends JsonResource
             ] : null,
             // 'patient' => $this->patient_id ? new PatientResource($this->patient,) : null,
             'patient' => $this->patient_id ? [
+                'id' => $this->patient->id,
                 'name' => $this->patient->name,
                 'mrn' => $this->patient->medical_record_number,
             ] : null,
