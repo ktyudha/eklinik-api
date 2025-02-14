@@ -22,12 +22,12 @@ class MedicalUpdateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'patient_id' => 'required|string',
-            'classification_id' => 'required|string',
+            'patient_id' => 'required|uuid|exists:patients,id',
+            'classification_id' => 'required|uuid|exists:classifications,id',
             'checkup_date' => 'required|date',
             'submenu' => 'required|array',
             'submenu.*.id' => 'required|exists:sub_menus,id',
-            'submenu.*.name' => 'required|string',
+            'submenu.*.name' => 'required|exists:sub_menus,name',
             'submenu.*.value' => 'required',
         ];
     }
