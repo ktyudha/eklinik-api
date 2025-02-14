@@ -22,13 +22,13 @@ class MedicalCreateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'patient_id' => 'required|string',
-            'classification_id' => 'required|string',
-            'checkup_date' => 'required|date',
-            'submenu' => 'required|array',
-            'submenu.*.id' => 'required|exists:sub_menus,id',
-            'submenu.*.name' => 'required|string',
-            'submenu.*.value' => 'required',
+            'patient_id' => 'nullable|string',
+            'classification_id' => 'nullable|string',
+            'checkup_date' => 'nullable|date',
+            'submenu' => 'nullable|array',
+            'submenu.*.id' => 'nullable|exists:sub_menus,id',
+            'submenu.*.name' => 'nullable|string',
+            'submenu.*.value' => 'nullable',
         ];
     }
 }
