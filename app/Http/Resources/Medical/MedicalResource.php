@@ -30,7 +30,7 @@ class MedicalResource extends JsonResource
                 'name' => $this->patient->name,
                 'mrn' => $this->patient->medical_record_number,
             ] : null,
-            // 'submenu' => $this->submenu,
+            'submenu' => $this->submenu,
             'recipes' => $this->whenLoaded('recipes', function () {
                 return RecipeResource::collection($this->recipes);
             }),
