@@ -47,7 +47,12 @@ Route::prefix('v1')->group(function () {
                 Route::put('/user/{id}', [UserController::class, 'update']);
 
                 // Medical
-                Route::apiResource('medical', MedicalController::class);
+                Route::get('/medical', [MedicalController::class, 'index']);
+                Route::post('/medical', [MedicalController::class, 'store']);
+                Route::get('/medical/{id}', [MedicalController::class, 'show']);
+                Route::put('/medical/{id}', [MedicalController::class, 'update']);
+                Route::delete('/medical/{id}', [MedicalController::class, 'destroy']);
+                // Route::apiResource('medical', MedicalController::class);
 
                 // Patients
                 Route::get('/patients', [PatientController::class, 'index']);

@@ -27,6 +27,7 @@ class MedicalUpdateRequest extends FormRequest
             'checkup_date' => 'required|date',
             'submenu' => 'required|array',
             'submenu.*.id' => 'required|exists:sub_menus,id',
+            'submenu.*.name' => 'required|string',
             'submenu.*.value' => 'required',
         ];
     }
