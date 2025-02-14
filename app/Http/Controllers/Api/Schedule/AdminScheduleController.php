@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\Schedule;
 
 use App\Http\Controllers\Controller;
 // use Illuminate\Http\Request;
+use App\Http\Resources\Schedule\ScheduleResource;
 use App\Http\Repositories\Schedule\ScheduleRepository;
 use App\Http\Requests\Schedule\ScheduleRequest;
 
@@ -16,7 +17,7 @@ class AdminScheduleController extends Controller
     {
         return response()->json([
             'message' => 'success',
-            'schedules' => $this->scheduleRepository->findAll()
+            'schedules' => ScheduleResource::collection($this->scheduleRepository->findAll())
         ]);
     }
 
@@ -28,7 +29,7 @@ class AdminScheduleController extends Controller
     public function show($id)
     {
         return response()->json([
-            'schedule' => $this->scheduleRepository->findById($id)
+            'schedule' => new ScheduleResource($this->scheduleRepository->findById($id))
         ]);
     }
 
@@ -36,7 +37,7 @@ class AdminScheduleController extends Controller
     {
         return response()->json([
             'message' => 'success',
-            'schedule' => $this->scheduleRepository->update($id, $request->validated())
+            'schedule' => new ScheduleResource($this->scheduleRepository->update($id, $request->validated()))
         ]);
     }
 
