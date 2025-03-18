@@ -40,6 +40,7 @@ class ClassificationController extends Controller
     {
         return response()->json([
             'classification' => new ClassificationResource($this->classificationService->show($id))
+            // 'classification' => $this->classificationService->show($id)
         ]);
     }
 

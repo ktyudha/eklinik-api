@@ -14,9 +14,10 @@ return new class extends Migration
         Schema::create('queue_medicals', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->foreignUuid('patient_id')->constrained('patients')->onDelete('cascade');
-            $table->dateTime('appointment_date')->nullable();
+            $table->dateTime('queue_date')->nullable();
+            $table->string('queue_number')->nullable();
             $table->text('description')->nullable();
-            $table->enum('status', ['belum diperiksa', 'sedang diperiksa', 'sudah diperiksa', 'batal berobat'])->nullable()->default('belum diperiksa');
+            $table->enum('status', ['waiting', 'finished', 'cancel'])->nullable()->default('waiting');
             $table->timestamps();
         });
     }

@@ -3,6 +3,7 @@
 namespace App\Http\Resources\Patient;
 
 use Illuminate\Http\Request;
+use App\Http\Resources\Region\VillageResource;
 use App\Http\Resources\Medical\MedicalResource;
 use App\Http\Resources\Patient\PatientResource;
 
@@ -44,6 +45,8 @@ class PatientCredentialsResource extends PatientResource
                 'id' => $this->subDistrict->id,
                 'name' => $this->subDistrict->name,
             ] : null,
+            'village' => new VillageResource($this->village),
+            'additional_address' => $this->additional_address,
             'medicals' => $this->whenLoaded('medicals', function () {
                 return MedicalResource::collection($this->medicals);
             }),

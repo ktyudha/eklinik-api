@@ -29,7 +29,7 @@ class MedicalController extends Controller
     public function show($id)
     {
         return response()->json([
-            'menu' => new MedicalResource($this->medicalService->show($id))
+            'medical' => new MedicalResource($this->medicalService->show($id))
         ]);
     }
 
