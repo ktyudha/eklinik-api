@@ -133,6 +133,8 @@ Route::prefix('v1')->group(function () {
             Route::get('/payments/{id}', [PaymentController::class, 'show']);
             Route::put('/payments/{id}', [PaymentController::class, 'update']);
             Route::delete('/payments/{id}', [PaymentController::class, 'destroy']);
+
+            Route::get('/payment-status/{snapId}', [PaymentController::class, 'checkPaymentStatus'])->name('payment.checkstatus');
         }
     );
 });

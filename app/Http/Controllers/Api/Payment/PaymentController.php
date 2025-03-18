@@ -49,4 +49,9 @@ class PaymentController extends Controller
             'message' => 'success'
         ]);
     }
+
+    public function checkPaymentStatus($snapId)
+    {
+        return $this->paymentService->checkPaymentStatus($snapId);
+    }
 }
