@@ -20,10 +20,11 @@ class PaymentController extends Controller
 
     public function store(PaymentCreateRequest $request)
     {
-        return response()->json([
-            'message' => 'success',
-            'payment' => new PaymentResource($this->paymentService->store($request))
-        ]);
+        return $this->paymentService->store($request);
+        // return response()->json([
+        //     'message' => 'success',
+        //     'payment' => new PaymentResource($this->paymentService->store($request))
+        // ]);
     }
 
     public function show($id)
