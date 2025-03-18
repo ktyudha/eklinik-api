@@ -24,7 +24,7 @@ class SubMenuCreateRequest extends FormRequest
         return [
             'menu_id' => 'required|string',
             'name' => 'required|string|unique:sub_menus',
-            'type' => 'required|in:textrich,input,textarea,radio,combobox,checkboxm,date,time,datetime,select',
+            'type' => 'required|in:textrich,input,textarea,radio,combobox,checkbox,date,time,datetime,select',
             'is_active' => 'required',
         ];
     }

@@ -4,6 +4,7 @@ namespace App\Models\Menu;
 
 use App\Traits\Uuid;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Builder;
 
 class SubMenu extends Model
 {
@@ -16,6 +17,14 @@ class SubMenu extends Model
         'type',
         'is_active',
     ];
+
+    public function scopeFilters(Builder $query, array $filters)
+    {
+        $query
+            ->when(isset($filters['name']) && $filters['name'] !== null, function ($query) use ($filters) {
+                $query->where('name', 'like', '%' . $filters['name'] . '%');
+            });
+    }
 
     public function menu()
     {

@@ -18,7 +18,7 @@ class SubDistrictSeeder extends Seeder
         SubDistrict::truncate();
         Schema::enableForeignKeyConstraints();
 
-        $csvPath = database_path('seed_files/sub_districts.csv');
+        $csvPath = database_path('seed_files/districts.csv');
         $rowHeaders = ['id', 'city_id', 'name', 'created_at', 'updated_at'];
         $data = csvToArray($rowHeaders, $csvPath);
 
