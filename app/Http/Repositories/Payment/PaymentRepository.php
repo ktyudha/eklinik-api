@@ -19,28 +19,28 @@ class PaymentRepository extends BaseRepository
         // Config::$is3ds = config('services.midtrans.is3ds');
     }
 
-    public function createPayment($data)
-    {
-        $payment = $this->model::create($data);
+    // public function createPayment($data)
+    // {
+    //     $payment = $this->model::create($data);
 
-        $payload = [
-            'transaction_details' => [
-                'order_id' => uniqid(),
-                'gross_amount'  => 50000,
-            ],
-            'customer_details' => [
-                'first_name'    => 'Yudha',
-                'email'         => 'ktyoedha@gmail.com',
-                // 'phone'         => '08888888888',
-                // 'address'       => '',
-            ],
-        ];
+    //     $payload = [
+    //         'transaction_details' => [
+    //             'order_id' => uniqid(),
+    //             'gross_amount'  => 50000,
+    //         ],
+    //         'customer_details' => [
+    //             'first_name'    => 'Yudha',
+    //             'email'         => 'ktyoedha@gmail.com',
+    //             // 'phone'         => '08888888888',
+    //             // 'address'       => '',
+    //         ],
+    //     ];
 
-        $snapToken = Snap::getSnapToken($payload);
-        $payment->snap_token = $snapToken;
-        $payment->save();
-        return $payment;
-    }
+    //     $snapToken = Snap::getSnapToken($payload);
+    //     $payment->snap_token = $snapToken;
+    //     $payment->save();
+    //     return $payment;
+    // }
 
     // public function createRecipeWithMedicine($data)
     // {

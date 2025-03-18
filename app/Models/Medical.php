@@ -80,4 +80,9 @@ class Medical extends Model
     {
         return $this->hasMany(Recipe::class);
     }
+
+    public function recipe()
+    {
+        return $this->hasOne(Recipe::class);
+    }
 }

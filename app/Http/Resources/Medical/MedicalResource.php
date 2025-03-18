@@ -24,36 +24,17 @@ class MedicalResource extends JsonResource
                 'id' => $this->classification->id,
                 'name' => $this->classification->name,
             ] : null,
-            // 'patient' => $this->patient_id ? new PatientResource($this->patient,) : null,
-            'patient' => $this->patient_id ? [
-                'id' => $this->patient->id,
-                'name' => $this->patient->name,
-                'mrn' => $this->patient->medical_record_number,
-            ] : null,
+            'patient' => $this->patient_id ? new PatientResource($this->patient,) : null,
+            // 'patient' => $this->patient_id ? [
+            //     'id' => $this->patient->id,
+            //     'name' => $this->patient->name,
+            //     'mrn' => $this->patient->medical_record_number,
+            // ] : null,
             'submenu' => $this->submenu,
             'recipes' => $this->whenLoaded('recipes', function () {
                 return RecipeResource::collection($this->recipes);
             }),
-            // 'diagnosis' => $this->diagnosis,
-            // 'complaints' => $this->complaints,
-            // 'illness_duration_years' => $this->illness_duration_years,
-            // 'illness_duration_months' => $this->illness_duration_months,
-            // 'illness_duration_days' => $this->illness_duration_days,
-            // 'medical_history' => $this->medical_history,
-            // 'drug_allergies' => $this->drug_allergies,
-            // 'food_allergies' => $this->food_allergies,
-            // 'other_allergies' => $this->other_allergies,
-            // 'sistole' => $this->sistole,
-            // 'diastole' => $this->diastole,
-            // 'height' => $this->height,
-            // 'weight' => $this->weight,
-            // 'pulse' => $this->pulse,
-            // 'temperature' => $this->temperature,
-            // 'pregnancy' => $this->pregnancy,
-            // 'heart' => $this->heart,
-            // 'other_checkup' => $this->other_checkup,
-            // 'treatment' => $this->treatment,
-            // 'recipe' => $this->recipe,
+
         ];
     }
 }
