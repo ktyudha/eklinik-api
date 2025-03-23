@@ -25,9 +25,7 @@ class PaymentCreateRequest extends FormRequest
             'patient_id' => 'required|string|exists:patients,id',
             'medical_id' => 'required|string|exists:medicals,id',
             'recipe_id' => 'required|string|exists:recipes,id',
-            'payment_date' => 'required|date',
-            'payment_method' => 'required',
-            'total_amount' => 'required',
+            'payment_type' => 'required|in:qris'
         ];
     }
 }

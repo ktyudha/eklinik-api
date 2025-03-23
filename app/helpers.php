@@ -297,3 +297,22 @@ if (!function_exists('generateQueueNumber')) {
         }
     }
 }
+
+if (!function_exists('generateInvoiceNumber')) {
+    /**
+     * Generate a random numbers sequence for orders invoice number.
+     *
+     * @return string
+     */
+    function generateInvoiceNumber(): string
+    {
+        $prefix = 'INVOICE';
+        $day = strtoupper(now()->format('D'));
+        $timestamp = now()->timestamp;
+
+        // Combine parts to form the invoice number
+        $invoiceNumber = sprintf('%s-%s-%s', $prefix, $day, $timestamp);
+
+        return $invoiceNumber;
+    }
+}

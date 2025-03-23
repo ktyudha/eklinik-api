@@ -14,12 +14,25 @@ class PatientSeeder extends Seeder
     public function run(): void
     {
 
-        // for ($i = 0; $i <= 2; $i++) {
         Patient::create([
-            'name' => 'Pasien 1',
-            'no_medical_record' => '2409000001',
-            'address' => 'Surabaya',
+            'name' => 'Barjon Becak Kopling',
+            'username' => 'barjon',
+            'birth_place' => 'Mojokerto',
+            'birth_date' => '2024-01-01',
+            'password' => 'password',
+            'encrypted_password' => bcrypt('password'),
+            'nik' => '35105010121',
+            'email' => 'barjon@gmail.com',
+            'phone_number' => '085848250547',
+            'religion' => 'Islam',
+            'gender' => 'Laki-laki',
+            'marital_status' => 'single',
+            'education' => 'SMA/SMK/MA/MAK',
+            'job' => 'Belum/Tidak Bekejra',
+            'province_id' => '35',
+            'city_id' => '3515',
+            'sub_district_id' => '351503',
+            'village_id' => '3515032013',
         ]);
-        // }
     }
 }

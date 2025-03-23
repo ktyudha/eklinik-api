@@ -26,7 +26,8 @@ class RecipeCreateRequest extends FormRequest
             'medical_id' => 'required|string|exists:medicals,id',
             'description' => 'nullable|string',
             'medicine' => 'required|array',
-            'medicine.*' => 'required|exists:medicines,id'
+            'medicine.*.id' => 'required|exists:medicines,id',
+            'medicine.*.quantity' => 'required|numeric|min:0'
         ];
     }
 }

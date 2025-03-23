@@ -5,6 +5,8 @@ namespace Database\Seeders;
 use App\Models\Classification;
 use App\Models\Medical;
 use App\Models\Patient;
+use App\Models\Menu\SubMenu;
+use Carbon\Carbon;
 use Illuminate\Support\Str;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Schema;
@@ -24,11 +26,21 @@ class MedicalSeeder extends Seeder
         // Mengambil ID acak dari tabel `patients`
         $randomPatientId = Patient::inRandomOrder()->first()->id;
         $randomClassificationId = Classification::inRandomOrder()->first()->id;
+
+        $subMenus = SubMenu::inRandomOrder()->limit(3)->get()->map(function ($subMenu) {
+            return [
+                'id' => $subMenu->id,
+                'name' => $subMenu->name,
+                'value' => rand(10, 100), // Bisa diganti dengan nilai lain sesuai kebutuhan
+            ];
+        });
+
         Medical::create([
             'id' => Str::uuid(),
             'patient_id' => $randomPatientId,
             'classification_id' => $randomClassificationId,
-            'diagnosis' => 'sakit',
+            'checkup_date' => Carbon::now(),
+            'submenu' => $subMenus->toJson(),
         ]);
     }
 }

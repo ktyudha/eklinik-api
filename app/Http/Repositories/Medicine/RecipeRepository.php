@@ -17,7 +17,7 @@ class RecipeRepository extends BaseRepository
     public function createRecipeWithMedicine($data)
     {
 
-        $data['amount'] = $this->calculateAmount($data['medicine']);
+        // $data['amount'] = $this->calculateAmount($data['medicine']);
         $recipe = $this->model::create($data);
 
         if (isset($data['medicine'])) {
