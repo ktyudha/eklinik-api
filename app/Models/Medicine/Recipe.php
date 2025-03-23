@@ -39,6 +39,6 @@ class Recipe extends Model
 
     public function medicines()
     {
-        return $this->belongsToMany(Medicine::class, 'recipe_medicine', 'recipe_id', 'medicine_id');
+        return $this->belongsToMany(Medicine::class, 'recipe_medicine', 'recipe_id', 'medicine_id')->withPivot('quantity');
     }
 }

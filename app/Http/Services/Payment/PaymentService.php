@@ -11,9 +11,12 @@ use App\Http\Resources\Payment\PaymentResource;
 use App\Http\Requests\Pagination\PaginationRequest;
 use App\Http\Repositories\Payment\PaymentRepository;
 use App\Http\Resources\Medical\MedicalResource;
+use Carbon\Carbon;
 use Midtrans\Config;
 use Midtrans\Snap;
 use Midtrans\Transaction;
+use GuzzleHttp\Client;
+use Midtrans\CoreApi;
 
 class PaymentService
 {
@@ -46,139 +49,102 @@ class PaymentService
     public function store(PaymentCreateRequest $request)
     {
         $validated = $request->validated();
-        // return $this->paymentRepository->create($request->validated());
-        // $payment = $this->paymentRepository->create($request->validated());
 
-        $medical = $this->medicalRepository->findById($validated['medical_id'], ['recipe', 'classification']);
+        try {
+            $medical = $this->medicalRepository->findById($validated['medical_id'], ['recipe', 'classification']);
+            $itemDetails = collect([]);
+            $customer = [];
+            $orderId = generateInvoiceNumber();
+            $acquirer = "gopay";
 
-        $itemDetails = collect([]);
+            if ($medical->classification) {
+                $itemDetails->push([
+                    'id'        => 'medical-' . $medical->classification->id,
+                    'price'     => (int) $medical->classification->price,
+                    'quantity'  => 1,
+                    'name'      => $medical->classification->name,
+                    'category'  => 'Medical',
+                ]);
+            }
 
-        // Tambahkan data classification jika ada
-        if ($medical->classification) {
-            $itemDetails->push([
-                'id'        => 'medical-' . $medical->classification->id,
-                'price'     => (int) $medical->classification->price,
-                'quantity'  => 1,
-                'name'      => $medical->classification->name,
-                'category'  => 'Medical',
-            ]);
-        }
+            if ($medical->recipe && $medical->recipe->medicines->isNotEmpty()) {
+                $medicines = $medical->recipe->medicines->map(function ($medicine) {
+                    return [
+                        'id'       => 'medicine-' . $medicine->id,
+                        'price'    => (int) $medicine->price,
+                        'quantity' => (float) $medicine->pivot->quantity,
+                        'name'     => $medicine->name,
+                        'category' => 'Medicine',
+                    ];
+                });
 
-        // Tambahkan data recipe jika ada
-        // if ($medical->recipe) {
-        //     $itemDetails[] = [
-        //         'id'        => 'recipe-' . $medical->recipe->id,
-        //         'price'     => $medical->recipe->amount,
-        //         'quantity'  => 1,
-        //         'name'      => 'Medical Recipe',
-        //         'category'  => 'Prescription',
-        //     ];
-        // }
+                $itemDetails = $itemDetails->merge($medicines);
+            }
 
-        if ($medical->recipe && $medical->recipe->medicines->isNotEmpty()) {
-            $medicines = $medical->recipe->medicines->map(function ($medicine) {
-                return [
-                    'id'       => 'medicine-' . $medicine->id,
-                    'price'    => (int) $medicine->price,
-                    'quantity' => 1, // Sesuaikan jumlah jika ada informasi kuantitas
-                    'name'     => $medicine->name,
-                    'category' => 'Medicine',
+            $gross = $itemDetails->sum(fn($item) => $item['price'] * $item['quantity']);
+
+            if ($medical->patient) {
+                $patient = $medical->patient;
+                $customer = [
+                    'name' => $patient->name,
+                    'email' => $patient->email,
+                    'phone' => $patient->phone_number,
+                    'billing_address' => [
+                        'name' => $patient->name,
+                        'email' => $patient->email,
+                        'phone' => $patient->phone_number,
+                        'address' => $patient->village->name,
+                        'city' => $patient->city->name,
+                        'postal_code' => $patient->village->postal_code,
+                        'country_city' => 'IDN',
+                    ],
                 ];
-            });
+            }
 
-            $itemDetails = $itemDetails->merge($medicines);
+            $payload = [
+                'transaction_details' => [
+                    'order_id'      => $orderId,
+                    'gross_amount'  => $gross,
+                ],
+                'payment_type' => $validated['payment_type'],
+                'qris' => [
+                    'acquirer' => $acquirer,
+                ],
+                // 'payment_type' => 'gopay',
+                // 'bank_transfer' => [
+                //     'bank' => 'bca'
+                // ],
+                'item_details' => $itemDetails,
+                'customer_details' => $customer
+            ];
+
+            $body = CoreApi::charge($payload);
+            // $response = Snap::createTransaction($payload);
+
+            if (!isset($body->order_id) || !isset($body->actions[0]->url)) {
+                throw new \Exception('Invalid Midtrans response');
+            }
+
+            $validated['order_id'] = $body->order_id;
+            $validated['gross_amount'] = $body->gross_amount;
+            $validated['qris_url'] = $body->actions[0]->url;
+            $validated['qris_raw'] = $body->qr_string ?? null;
+            $validated['acquirer'] = $body->acquirer ?? null;
+            $validated['transaction_time'] = $body->transaction_time ?? null;
+            $validated['transaction_status'] = $body->transaction_status ?? 'pending';
+            $validated['transaction_expired_time'] = $body->expiry_time ?? null;
+
+            $payment =  $this->paymentRepository->create($validated);
+            return response()->json(
+                [
+                    'status' => 'success',
+                    'message' => 'Successfully',
+                    'data' => $payment,
+                ]
+            );
+        } catch (\Exception $e) {
+            return response()->json(['error' => $e->getMessage()], 500);
         }
-
-        // Hitung total harga
-        // $gross = collect($itemDetails)->sum('price');
-        $gross = $itemDetails->sum(function ($item) {
-            return $item['price'] * $item['quantity'];
-        });
-
-
-        $payload = [
-            'transaction_details' => [
-                'order_id'      => uniqid(),
-                'gross_amount'  => $gross,
-            ],
-            'item_details' => $itemDetails,
-            // 'customer_details' => [
-            //     'first_name' => 'Kurniawan Try',
-            //     'last_name' => 'Yudha',
-            //     'email' => 'ktyoedha@gmail.com',
-            //     'phone' => '+6285848250548',
-            //     'billing_address' => [
-            //         'first_name' => 'Steven',
-            //         'last_name' => 'Jowo',
-            //         'email' => 'stefen.jowo@gmail.com',
-            //         'phone' => '+6285848250548',
-            //         'address' => 'Mojokerto',
-            //         'city' => 'Mojokerto',
-            //         'postal_code' => '12190',
-            //         'country_city' => 'IDN',
-            //     ]
-            // ]
-        ];
-        return response()->json([
-            'payload' => $payload,
-            'medical' => $medical->recipe->medicines
-        ]);
-        // $snapToken = Snap::getSnapToken($payload);
-        // $data = [
-        //     'snap_token' => $snapToken,
-        //     // 'redirect_url' => `https://app.sandbox.midtrans.com/snap/v2/vtweb/` . $snapToken
-        // ];
-
-
-        // $payload = [
-        //     'transaction_details' => [
-        //         'order_id'      => uniqid(),
-        //         'gross_amount'  => '2000',
-        //     ],
-        //     'item_details' => [
-        //         [
-        //             'id' => 1,
-        //             'price' => '150000',
-        //             'quantity' => 1,
-        //             'name' => 'Flashdisk Toshiba 32GB',
-        //             'brand' => 'SanDisk',
-        //             'category' => 'Electronics',
-        //             'merchant_name' => 'Agung Computer',
-        //             'url' => 'https://tokobuah.com/apple-fuji',
-        //         ],
-        //         // [
-        //         //     'id' => 2,
-        //         //     'price' => '60000',
-        //         //     'quantity' => 2,
-        //         //     'name' => 'Memory Card VGEN 4GB',
-        //         // ],
-        //     ],
-        //     'customer_details' => [
-        //         'first_name' => 'Kurniawan Try',
-        //         'last_name' => 'Yudha',
-        //         'email' => 'ktyoedha@gmail.com',
-        //         'phone' => '+6285848250548',
-        //         'billing_address' => [
-        //             'first_name' => 'Steven',
-        //             'last_name' => 'Jowo',
-        //             'email' => 'stefen.jowo@gmail.com',
-        //             'phone' => '+6285848250548',
-        //             'address' => 'Mojokerto',
-        //             'city' => 'Mojokerto',
-        //             'postal_code' => '12190',
-        //             'country_city' => 'IDN',
-        //         ]
-        //     ]
-        // ];
-        // $snapToken = Snap::getSnapToken($payload);
-        // $data = [
-        //     'snap_token' => $snapToken,
-        //     // 'redirect_url' => `https://app.sandbox.midtrans.com/snap/v2/vtweb/` . $snapToken
-        // ];
-
-        // $this->paymentRepository->update($payment->id, $data);
-
-        // return $payment;
     }
 
     public function show($id)

@@ -16,11 +16,15 @@ return new class extends Migration
             $table->foreignUuid('patient_id')->constrained('patients')->onDelete('cascade');
             $table->foreignUuid('medical_id')->constrained('medicals')->onDelete('cascade');
             $table->foreignUuid('recipe_id')->constrained('recipes')->onDelete('cascade');
-            $table->dateTime('payment_date')->nullable();
-            $table->string('payment_method')->nullable();
-            $table->string('status')->nullable()->default('pending');
-            $table->string('total_amount')->nullable();
-            $table->string('snap_token')->nullable();
+            $table->string('order_id')->nullable();
+            $table->string('gross_amount')->nullable();
+            $table->string('payment_type')->nullable();
+            $table->dateTime('transaction_time')->nullable();
+            $table->enum('transaction_status', ['pending', 'settlement', 'cancel', 'expire'])->nullable()->default('pending');
+            $table->string('transaction_expired_time')->nullable();
+            $table->longText('qris_url')->nullable();
+            $table->longText('qris_raw')->nullable();
+            $table->string('acquirer')->nullable();
             $table->timestamps();
         });
     }

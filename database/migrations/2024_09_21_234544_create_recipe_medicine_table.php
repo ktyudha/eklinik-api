@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignUuid('recipe_id')->constrained('recipes')->onDelete('cascade');
             $table->foreignUuid('medicine_id')->constrained('medicines')->onDelete('cascade');
+            $table->decimal('quantity', 10, 2)->default(0);
             $table->timestamps();
         });
     }

@@ -17,7 +17,6 @@ return new class extends Migration
             $table->foreignUuid('medical_id')->constrained('medicals')->onDelete('cascade');
             $table->text('description')->nullable();
             $table->enum('status', ['waiting', 'processed', 'completed', 'canceled'])->default('waiting')->nullable();
-            $table->string('amount')->nullable();
             $table->timestamps();
         });
     }

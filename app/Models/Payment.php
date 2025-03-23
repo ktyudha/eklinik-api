@@ -17,11 +17,15 @@ class Payment extends Model
         'patient_id',
         'medical_id',
         'recipe_id',
-        'payment_date',
-        'payment_method',
-        'status',
-        'total_amount',
-        'snap_token'
+        'order_id',
+        'gross_amount',
+        'payment_type',
+        'transaction_time',
+        'transaction_status',
+        'transaction_expired_time',
+        'qris_url',
+        'qris_raw',
+        'acquirer'
     ];
 
     public function setPending()
