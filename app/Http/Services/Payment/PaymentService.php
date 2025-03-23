@@ -110,7 +110,7 @@ class PaymentService
                 'qris' => [
                     'acquirer' => $acquirer,
                 ],
-                // 'payment_type' => 'bank_transfer',
+                // 'payment_type' => 'gopay',
                 // 'bank_transfer' => [
                 //     'bank' => 'bca'
                 // ],
