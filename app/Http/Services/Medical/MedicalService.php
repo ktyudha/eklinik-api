@@ -26,7 +26,7 @@ class MedicalService
             [
                 'property_name' => 'medicals',
                 'resource' => MedicalResource::class,
-                'sort_by' => 'oldest',
+                'sort_by' => 'latest',
                 'sort_by_property' => 'id',
                 'relations' => ['patient', 'recipes'],
             ],

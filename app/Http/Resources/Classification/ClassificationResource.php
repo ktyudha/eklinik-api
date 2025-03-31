@@ -3,6 +3,7 @@
 namespace App\Http\Resources\Classification;
 
 use App\Http\Resources\Menu\MenuResource;
+use App\Http\Resources\Menu\SubMenuResource;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 

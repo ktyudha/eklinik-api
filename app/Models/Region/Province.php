@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class Province extends Model
 {
     use HasFactory;
+    public $table = 'provinces';
 
     /**
      * The attributes that are mass assignable.
@@ -42,7 +43,10 @@ class Province extends Model
 
     public function scopeFilters(Builder $query, array $filters)
     {
-        //
+        $query
+            ->when(isset($filters['name']) && $filters['name'] !== null, function ($query) use ($filters) {
+                $query->where('name', 'like', '%' . $filters['name'] . '%');
+            });
     }
 
     public function cities()

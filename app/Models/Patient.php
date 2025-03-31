@@ -4,11 +4,12 @@ namespace App\Models;
 
 use App\Traits\Uuid;
 use App\Models\Region\City;
+use App\Models\Region\Village;
 use App\Models\Region\Province;
 use App\Models\Region\SubDistrict;
 use Laravel\Passport\HasApiTokens;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
@@ -37,7 +38,8 @@ class Patient extends Authenticatable
         'province_id',
         'city_id',
         'sub_district_id',
-        'village',
+        'village_id',
+        'additional_address'
     ];
 
     protected $casts = [
@@ -73,6 +75,11 @@ class Patient extends Authenticatable
     public function subDistrict()
     {
         return $this->belongsTo(SubDistrict::class);
+    }
+
+    public function village()
+    {
+        return $this->belongsTo(Village::class);
     }
 
     public function medicals()

@@ -17,6 +17,7 @@ class ClassificationService
 
     public function index(PaginationRequest $request): array
     {
+        $filters = $request->only(['name']);
         return customPaginate(
             new Classification(),
             [
@@ -26,7 +27,8 @@ class ClassificationService
                 'sort_by_property' => 'id',
                 'relations' => ['menus'],
             ],
-            $request->limit ?? 10
+            $request->limit ?? 10,
+            $filters
         );
     }
 
@@ -37,12 +39,12 @@ class ClassificationService
 
     public function show($id)
     {
-        return $this->classificationRepository->findById($id, ['menus']);
+        return $this->classificationRepository->findById($id, ['menus.submenus']);
     }
 
     public function update($id, ClassificationUpdateRequest $request)
     {
-        return $this->classificationRepository->update($id, $request->validated());
+        return $this->classificationRepository->updateClassificationWithMenu($id, $request->validated());
     }
 
     public function destroy($id)

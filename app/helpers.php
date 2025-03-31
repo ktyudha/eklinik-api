@@ -283,3 +283,17 @@ if (!function_exists('generateMedicalRecordNumber')) {
         return $newMedicalRecordNo;
     }
 }
+
+if (!function_exists('generateQueueNumber')) {
+    function generateQueueNumber($lastQueue)
+    {
+        if ($lastQueue) {
+            preg_match('/\d+/', $lastQueue, $matches);
+            $lastNumber = (int)$matches[0];
+            $nextNumber = $lastNumber + 1;
+            return str_pad($nextNumber, 3, '0', STR_PAD_LEFT);
+        } else {
+            return '001';
+        }
+    }
+}

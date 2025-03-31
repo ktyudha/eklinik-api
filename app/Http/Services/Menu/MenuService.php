@@ -17,9 +17,12 @@ class MenuService
 
     public function index(PaginationRequest $request): array
     {
-        $query = Menu::where('is_active', 1);
+        // $query = Menu::where('is_active', 1);
+        $filters = $request->only(['name']);
+        $model = new Menu();
         return customPaginate(
-            $query,
+            // $query,
+            $model,
             [
                 'property_name' => 'menus',
                 'resource' => MenuResource::class,
@@ -27,7 +30,8 @@ class MenuService
                 'sort_by_property' => 'id',
                 'relations' => ['submenus', 'classifications'],
             ],
-            $request->limit ?? 10
+            $request->limit ?? 10,
+            $filters
         );
     }
 

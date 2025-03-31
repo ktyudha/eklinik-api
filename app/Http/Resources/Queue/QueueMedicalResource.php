@@ -16,7 +16,8 @@ class QueueMedicalResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'appointment_date' => $this->appointment_date,
+            'queue_number' => $this->queue_number,
+            'queue_date' => $this->queue_date,
             'description' => $this->description,
             'status' => $this->status,
             'patient' => $this->patient_id ? [

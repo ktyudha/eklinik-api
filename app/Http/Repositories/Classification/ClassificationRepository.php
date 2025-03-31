@@ -28,4 +28,19 @@ class ClassificationRepository extends BaseRepository
 
         return $classification;
     }
+
+    public function updateClassificationWithMenu($classificationId, $data)
+    {
+
+        $classification = $this->model::findOrFail($classificationId);
+
+        // Update the classification's attributes
+        $classification->update($data);
+
+        // Sync the menus if they are provided in the data
+        if (isset($data['menu'])) {
+            $classification->syncMenus($data['menu']);
+        }
+        return $classification;
+    }
 }

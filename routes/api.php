@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\SurabayaBusController;
 use App\Http\Controllers\Api\Auth\AuthController;
 use App\Http\Controllers\Api\Menu\MenuController;
 use App\Http\Controllers\Api\User\UserController;
@@ -8,13 +9,17 @@ use App\Http\Controllers\Api\Menu\SubMenuController;
 use App\Http\Controllers\Api\Region\RegionController;
 use App\Http\Controllers\Api\Auth\AdminAuthController;
 use App\Http\Controllers\Api\Medical\MedicalController;
-use App\Http\Controllers\Api\Patient\PatientController;
-use App\Http\Controllers\Api\Classification\ClassificationController;
-use App\Http\Controllers\Api\Medicine\MedicineCategoryController;
-use App\Http\Controllers\Api\Medicine\MedicineController;
 use App\Http\Controllers\Api\Medicine\RecipeController;
+use App\Http\Controllers\Api\Patient\PatientController;
 use App\Http\Controllers\Api\Payment\PaymentController;
+use App\Http\Controllers\Api\Medicine\MedicineController;
 use App\Http\Controllers\Api\Queue\QueueMedicalController;
+use App\Http\Controllers\Api\Medical\PatientMedicalController;
+use App\Http\Controllers\Api\Medicine\MedicineCategoryController;
+use App\Http\Controllers\Api\Classification\ClassificationController;
+use App\Http\Controllers\Api\Queue\AdminQueueMedicalController;
+use App\Http\Controllers\Api\Schedule\ScheduleController;
+use App\Http\Controllers\Api\Schedule\AdminScheduleController;
 
 Route::prefix('v1')->group(function () {
     // Patient Login
@@ -42,7 +47,12 @@ Route::prefix('v1')->group(function () {
                 Route::put('/user/{id}', [UserController::class, 'update']);
 
                 // Medical
-                Route::apiResource('medical', MedicalController::class);
+                Route::get('/medical', [MedicalController::class, 'index']);
+                Route::post('/medical', [MedicalController::class, 'store']);
+                Route::get('/medical/{id}', [MedicalController::class, 'show']);
+                Route::put('/medical/{id}', [MedicalController::class, 'update']);
+                Route::delete('/medical/{id}', [MedicalController::class, 'destroy']);
+                // Route::apiResource('medical', MedicalController::class);
 
                 // Patients
                 Route::get('/patients', [PatientController::class, 'index']);
@@ -92,18 +102,36 @@ Route::prefix('v1')->group(function () {
                 Route::get('/recipes/{id}', [RecipeController::class, 'show']);
                 Route::put('/recipes/{id}', [RecipeController::class, 'update']);
                 Route::delete('/recipes/{id}', [RecipeController::class, 'destroy']);
+
+                // Appointments
+                Route::get('/appointments', [AdminQueueMedicalController::class, 'index']);
+                Route::get('/appointments/{id}', [AdminQueueMedicalController::class, 'show']);
+                Route::post('/appointments', [AdminQueueMedicalController::class, 'store']);
+                Route::put('/appointments/{id}', [AdminQueueMedicalController::class, 'update']);
+                Route::delete('/appointments/{id}', [AdminQueueMedicalController::class, 'destroy']);
+
+                // Schedule
+                Route::get('/schedules', [AdminScheduleController::class, 'index']);
+                Route::get('/schedules/{id}', [AdminScheduleController::class, 'show']);
+                Route::post('/schedules', [AdminScheduleController::class, 'store']);
+                Route::put('/schedules/{id}', [AdminScheduleController::class, 'update']);
+                Route::delete('/schedules/{id}', [AdminScheduleController::class, 'destroy']);
             });
 
 
             // Region
             Route::prefix('region')->group(function () {
+                Route::get('/search', [RegionController::class, 'findVillageFilter']);
                 Route::get('/provinces', [RegionController::class, 'provinceIndex']);
                 Route::get('/cities', [RegionController::class, 'cityIndex']);
                 Route::get('/sub-districts', [RegionController::class, 'subDistrictIndex']);
+                Route::get('/villages', [RegionController::class, 'villageIndex']);
                 Route::get('/countries', [RegionController::class, 'countryIndex']);
                 Route::get('/provinces/{id}', [RegionController::class, 'findOneProvince']);
                 Route::get('/cities/{id}', [RegionController::class, 'findOneCity']);
                 Route::get('/countries/{id}', [RegionController::class, 'findOneCountry']);
+                Route::get('/sub-districts/{id}', [RegionController::class, 'findOneSubDistrict']);
+                Route::get('/villages/{id}', [RegionController::class, 'findOneVillage']);
             });
         }
     );
@@ -116,9 +144,14 @@ Route::prefix('v1')->group(function () {
                 // Appointment
                 Route::get('/appointments', [QueueMedicalController::class, 'index']);
                 Route::post('/appointments', [QueueMedicalController::class, 'store']);
-                Route::get('/appointments/{id}', [QueueMedicalController::class, 'show']);
-                Route::put('/appointments/{id}', [QueueMedicalController::class, 'update']);
-                Route::delete('/appointments/{id}', [QueueMedicalController::class, 'destroy']);
+                // Route::get('/appointments/{id}', [QueueMedicalController::class, 'show']);
+                // Route::put('/appointments/{id}', [QueueMedicalController::class, 'update']);
+                // Route::delete('/appointments/{id}', [QueueMedicalController::class, 'destroy']);
+                Route::post('/appointments/cancel/{id}', [QueueMedicalController::class, 'cancel'])->name('queue.cancel');
+                Route::get('/appointments/active', [QueueMedicalController::class, 'getOneQueueActive'])->name('queue.getOneQueueActive');
+
+                // Medical History
+                Route::get('medicals', [PatientMedicalController::class, 'index']);
             });
         }
     );
@@ -135,4 +168,6 @@ Route::prefix('v1')->group(function () {
             Route::delete('/payments/{id}', [PaymentController::class, 'destroy']);
         }
     );
+
+    Route::get('/schedules', [ScheduleController::class, 'index']);
 });
