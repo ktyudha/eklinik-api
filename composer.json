@@ -18,6 +18,7 @@
         "onecentlin/laravel-adminer": "^7.0"
     },
     "require-dev": {
+        "deployer/deployer": "*",
         "fakerphp/faker": "^1.23",
         "laravel/pint": "^1.13",
         "laravel/sail": "^1.36",

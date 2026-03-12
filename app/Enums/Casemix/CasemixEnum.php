@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Enums\Role\Casemix;
+namespace App\Enums\Casemix;
 
 use BenSampo\Enum\Enum;
 

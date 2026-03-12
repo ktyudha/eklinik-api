@@ -1,0 +1,39 @@
+name: 🚀 CD - Auto Deploy
+
+on:
+  push:
+    branches:
+      - main
+      - develop
+
+jobs:
+  deploy:
+    name: Deploy via Deployer
+    runs-on: self-hosted
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Install dependencies
+        run: composer install --no-dev --optimize-autoloader --no-interaction
+
+      - name: Deploy ke Production (main)
+        if: github.ref_name == 'main'
+        run: php vendor/bin/dep deploy production --no-interaction -vvv
+
+      - name: Deploy ke Staging (develop)
+        if: github.ref_name == 'develop'
+        run: php vendor/bin/dep deploy staging --no-interaction -vvv
+
+      - name: ✅ Deploy selesai
+        run: |
+          echo "================================================"
+          echo "✅ Deploy berhasil!"
+          echo "Branch  : ${{ github.ref_name }}"
+          echo "Commit  : ${{ github.sha }}"
+          echo "By      : ${{ github.actor }}"
+          echo "Waktu   : $(date '+%Y-%m-%d %H:%M:%S')"
+          echo "================================================"
