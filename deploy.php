@@ -5,8 +5,8 @@ namespace Deployer;
 require 'recipe/laravel.php';
 
 // ─── Konfigurasi Project ──────────────────────────────────────────────────────
-set('application', 'peternak-api');
-set('repository', 'https://github.com/ktyudhadmc/peternak-api.git');
+set('application', 'api-eklinik.inb.my.id');
+set('repository', 'git@github.com:ktyudha/eklinik-api.git');
 set('git_tty', false);
 set('keep_releases', 5);  // simpan 5 release terakhir untuk rollback
 set('writable_mode', 'chmod');
@@ -35,7 +35,7 @@ set('writable_dirs', [
 // ─── Server Production (main) ─────────────────────────────────────────────────
 host('production')
     ->set('hostname', '127.0.0.1')   // lokal karena pakai self-hosted runner
-    ->set('remote_user', 'www-data')
+    ->set('remote_user', 'inbework')
     ->set('branch', 'main')
     ->set('deploy_path', '/var/www/api-eklinik.inb.my.id')
     ->set('labels', ['stage' => 'production']);
@@ -43,7 +43,7 @@ host('production')
 // ─── Server Staging (develop) ────────────────────────────────────────────────
 host('staging')
     ->set('hostname', '127.0.0.1')
-    ->set('remote_user', 'www-data')
+    ->set('remote_user', 'inbework')
     ->set('branch', 'develop')
     ->set('deploy_path', '/var/www/api-eklinik-dev.inb.my.id')
     ->set('labels', ['stage' => 'staging']);
@@ -66,10 +66,10 @@ task('artisan:commands', function () {
 
 // ─── Deploy Flow ──────────────────────────────────────────────────────────────
 task('deploy', [
-    'deploy:prepare',       // siapkan folder release
-    'deploy:vendors',       // composer install
-    'artisan:commands',     // migrate, optimize, dll
-    'deploy:publish',       // symlink current → release baru (zero downtime!)
+    'deploy:prepare',
+    'deploy:composer',
+    'artisan:commands',
+    'deploy:publish',
 ]);
 
 // Kalau deploy gagal, rollback otomatis
