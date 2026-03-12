@@ -55,6 +55,10 @@ task('deploy:composer', function () {
     run('cd {{release_path}} && composer install --no-dev --optimize-autoloader --no-interaction');
 });
 
+task('passport:keys', function () {
+    run('if [ ! -f {{deploy_path}}/shared/storage/oauth-private.key ]; then cd {{release_path}} && php artisan passport:keys; fi');
+});
+
 // Jalankan artisan commands
 task('artisan:commands', function () {
     run('cd {{release_path}} && php artisan migrate --force');
@@ -64,11 +68,24 @@ task('artisan:commands', function () {
     run('cd {{release_path}} && php artisan queue:restart || true');
 });
 
+task('deploy:fix-permissions', function () {
+    run('sudo chown -R inbework:www-data {{release_path}}/storage');
+    run('sudo chmod -R 775 {{release_path}}/storage');
+    run('sudo chmod -R 775 {{release_path}}/bootstrap/cache');
+
+    // untuk passport keys
+    run('sudo chmod 640 {{deploy_path}}/shared/storage/oauth-private.key || true');
+    run('sudo chmod 640 {{deploy_path}}/shared/storage/oauth-public.key || true');
+    run('sudo chown inbework:www-data {{deploy_path}}/shared/storage/oauth-*.key || true');
+});
+
 // ─── Deploy Flow ──────────────────────────────────────────────────────────────
 task('deploy', [
     'deploy:prepare',
     'deploy:composer',
+    'passport:keys',
     'artisan:commands',
+    'deploy:fix-permissions',
     'deploy:publish',
 ]);
 
