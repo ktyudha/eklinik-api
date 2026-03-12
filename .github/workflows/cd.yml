@@ -6,9 +6,29 @@ on:
       - main
       - develop
 
+  # Manual trigger untuk deploy & rollback
+  workflow_dispatch:
+    inputs:
+      action:
+        description: 'Pilih aksi'
+        required: true
+        default: 'deploy'
+        type: choice
+        options:
+          - deploy
+          - rollback
+      environment:
+        description: 'Pilih environment'
+        required: true
+        default: 'production'
+        type: choice
+        options:
+          - production
+          - staging
+
 jobs:
   deploy:
-    name: Deploy via Deployer
+    name: ${{ github.event.inputs.action == 'rollback' && '⏪ Rollback' || '🚀 Deploy' }} ke ${{ github.event.inputs.environment || github.ref_name }}
     runs-on: self-hosted
 
     steps:
@@ -23,20 +43,39 @@ jobs:
       - name: Cek Deployer tersedia
         run: php vendor/bin/dep --version
 
-      - name: Deploy ke Production (main)
-        if: github.ref_name == 'main'
+      # ─── AUTO DEPLOY saat push ke main ───────────────────────────────────
+      - name: 🚀 Deploy ke Production
+        if: github.event_name == 'push' && github.ref_name == 'main'
         run: php vendor/bin/dep deploy production --no-interaction -vvv
 
-      - name: Deploy ke Staging (develop)
-        if: github.ref_name == 'develop'
+      - name: 🚀 Deploy ke Staging
+        if: github.event_name == 'push' && github.ref_name == 'develop'
         run: php vendor/bin/dep deploy staging --no-interaction -vvv
 
-      - name: ✅ Deploy selesai
+      # ─── MANUAL DEPLOY via workflow_dispatch ─────────────────────────────
+      - name: 🚀 Manual Deploy
+        if: github.event_name == 'workflow_dispatch' && github.event.inputs.action == 'deploy'
+        run: php vendor/bin/dep deploy ${{ github.event.inputs.environment }} --no-interaction -vvv
+
+      # ─── ROLLBACK via workflow_dispatch ──────────────────────────────────
+      - name: ⏪ Rollback
+        if: github.event_name == 'workflow_dispatch' && github.event.inputs.action == 'rollback'
+        run: php vendor/bin/dep rollback ${{ github.event.inputs.environment }} --no-interaction -vvv
+
+      # ─── Notifikasi ───────────────────────────────────────────────────────
+      - name: ✅ Selesai
         run: |
+          ACTION="${{ github.event.inputs.action || 'deploy' }}"
+          ENV="${{ github.event.inputs.environment || github.ref_name }}"
           echo "================================================"
-          echo "✅ Deploy berhasil!"
-          echo "Branch  : ${{ github.ref_name }}"
-          echo "Commit  : ${{ github.sha }}"
-          echo "By      : ${{ github.actor }}"
-          echo "Waktu   : $(date '+%Y-%m-%d %H:%M:%S')"
+          if [ "$ACTION" = "rollback" ]; then
+            echo "⏪ Rollback berhasil!"
+          else
+            echo "✅ Deploy berhasil!"
+          fi
+          echo "Environment : $ENV"
+          echo "Branch      : ${{ github.ref_name }}"
+          echo "Commit      : ${{ github.sha }}"
+          echo "By          : ${{ github.actor }}"
+          echo "Waktu       : $(date '+%Y-%m-%d %H:%M:%S')"
           echo "================================================"
